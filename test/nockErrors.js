@@ -3,11 +3,12 @@
 
 var nock     = require('nock');
 
+var EXPIRE_REGEX = /\?expire=[0-9]+/g;
 var TEST_BASE_URI = 'http://mockapi.coinbase.com/v1/';
 var ACCOUNT_1 = {
-  "id": "E1234", 
+  "id": "E1234",
   "balance": {
-    "amount":"0.07", 
+    "amount":"0.07",
     "currency": "BTC"
   }
 };
@@ -76,12 +77,14 @@ var COMPLETE_RESP = {
   }
 };
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .put('/transactions/' + TXN_1.id + '/complete_request')
   .reply(402, function(uri, requestBody) {
     return COMPLETE_RESP;
   });
 
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .put('/transactions/' + TXN_2.id + '/complete_request')
   .reply(401, COMPLETE_RESP, {
     "www-authenticate": "Bearer realm=\"Doorkeeper\", error=\"invalid_token\", error_description=\"The access token is invalid\"",
@@ -96,6 +99,7 @@ nock(TEST_BASE_URI)
   });
 
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .put('/transactions/' + TXN_3.id + '/complete_request')
   .reply(401, COMPLETE_RESP, {
     "www-authenticate": "Bearer realm=\"Doorkeeper\", error=\"invalid_token\", error_description=\"The access token is expired!\"",
@@ -110,6 +114,7 @@ nock(TEST_BASE_URI)
   });
 
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .put('/transactions/' + TXN_4.id + '/complete_request')
   .reply(401, COMPLETE_RESP, {
     "www-authenticate": "Bearer realm=\"Doorkeeper\", error=\"some_other_error\", error_description=\"The access token is nonesense!\"",

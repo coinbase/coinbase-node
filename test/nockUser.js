@@ -3,6 +3,8 @@
 
 var nock     = require('nock');
 
+
+var EXPIRE_REGEX = /\?expire=[0-9]+/g;
 var TEST_BASE_URI = 'http://mockapi.coinbase.com/v1/';
 
 var USER_1 = {
@@ -61,6 +63,7 @@ var MODIFY_RESP = {
 };
 
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .put('/users/' + USER_1.id)
   .reply(200, function(uri, requestBody) {
     var args = JSON.parse(requestBody);

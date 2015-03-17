@@ -6,43 +6,48 @@ var nock     = require('nock');
 
 var TEST_BASE_URI = 'http://mockapi.coinbase.com/v1/';
 var ACCOUNT_1 = {
-  "id": "1234", 
+  "id": "1234",
   "balance": {
-    "amount":"0.07", 
+    "amount":"0.07",
     "currency": "BTC"
   }
 };
 var ACCOUNT_2 = {
-  "id": "5678", 
+  "id": "5678",
   "balance": {
-    "amount":"1.08", 
+    "amount":"1.08",
     "currency": "USD"
   }
 };
 var ACCOUNT_3 = { //gets deleted
-  "id": "1000", 
+  "id": "1000",
   "balance": {
-    "amount":"2.08", 
+    "amount":"2.08",
     "currency": "USD"
   }
 };
 var SUCCESS_TRUE_RESPONSE = { "success": true };
+var EXPIRE_REGEX = /\?expire=[0-9]+/g;
 
 var GET_BAL_RESP_1 = ACCOUNT_1.balance;
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .get('/accounts/' + ACCOUNT_1.id + '/balance')
   .reply(200, GET_BAL_RESP_1);
 
 var GET_BAL_RESP_2 = ACCOUNT_2.balance;
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .get('/accounts/' + ACCOUNT_2.id + '/balance')
   .reply(200, GET_BAL_RESP_2);
 
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .post('/accounts/' + ACCOUNT_1.id + '/primary')
   .reply(200, SUCCESS_TRUE_RESPONSE);
 
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .delete('/accounts/' + ACCOUNT_3.id)
   .reply(200, SUCCESS_TRUE_RESPONSE);
 
@@ -65,6 +70,7 @@ var MODIFY_ACCOUNT_RESP = {
   }
 };
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .put('/accounts/' + ACCOUNT_1.id)
   .reply(200, function(uri, body) {
     return MODIFY_ACCOUNT_RESP;
@@ -106,14 +112,16 @@ var GET_ADDRESSES_RESP =
   };
 
 nock(TEST_BASE_URI)
-  .get('/addresses?account_id=' + ACCOUNT_1.id)
+  .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
+  .get('/addresses?account_id=' + ACCOUNT_1.id + '&expire=XXX')
   .reply(200, function(uri, requestBody) {
     return GET_ADDRESSES_RESP;
   });
 
 //TODO: this doesn't work in production
 nock(TEST_BASE_URI)
-  .get('/addresses?account_id=' + ACCOUNT_1.id + '&page=1&query=moLxGrqWNcnGq4A8Caq8EGP4n9GUGWanj4')
+  .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
+  .get('/addresses?account_id=' + ACCOUNT_1.id + '&page=1&query=moLxGrqWNcnGq4A8Caq8EGP4n9GUGWanj4&expire=XXX')
   .reply(200, function(uri, requestBody) {
     return GET_ADDRESSES_RESP;
   });
@@ -129,6 +137,7 @@ var GET_ADDRESS_RESP = {
 };
 
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .get('/accounts/' + ACCOUNT_1.id + '/address')
   .reply(200, GET_ADDRESS_RESP);
 
@@ -140,6 +149,7 @@ var CREATE_ADDRESS_RESP = {
 };
 
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .post('/accounts/' + ACCOUNT_1.id + '/address')
   .reply(200, function(uri, body) {
     return CREATE_ADDRESS_RESP;
@@ -209,7 +219,8 @@ var GET_TRANSACTIONS_RESP ={
 };
 
 nock(TEST_BASE_URI)
-  .get('/transactions?account_id=' + ACCOUNT_1.id)
+  .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
+  .get('/transactions?account_id=' + ACCOUNT_1.id + '&expire=XXX')
   .reply(200, function(uri, requestBody) {
     return GET_TRANSACTIONS_RESP;
   });
@@ -238,7 +249,8 @@ var GET_TRANSACTION_RESP = {
 };
 
 nock(TEST_BASE_URI)
-  .get('/transactions/1234?account_id=' + ACCOUNT_1.id)
+  .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
+  .get('/transactions/1234?account_id=' + ACCOUNT_1.id + '&expire=XXX')
   .reply(200, function(uri, requestBody) {
     return GET_TRANSACTION_RESP;
   });
@@ -273,6 +285,7 @@ var TRANSFER_MONEY_RESP = {
 };
 
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .post('/transactions/transfer_money')
   .reply(200, function(uri, body) {
     var txn = JSON.parse(body);
@@ -312,6 +325,7 @@ var SEND_MONEY_RESP = {
 };
 
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .post('/transactions/send_money')
   .reply(200, function(uri, body) {
     var txn = JSON.parse(body);
@@ -347,6 +361,7 @@ var REQUEST_MONEY_RESP = {
   }
 };
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .post('/transactions/request_money')
   .reply(200, function(uri, body) {
     var txn = JSON.parse(body);
@@ -399,7 +414,8 @@ var GET_TRANSFERS_RESP = {
 };
 
 nock(TEST_BASE_URI)
-  .get('/transfers?account_id=' + ACCOUNT_1.id)
+  .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
+  .get('/transfers?account_id=' + ACCOUNT_1.id + '&expire=XXX')
   .reply(200, function(uri, requestBody) {
     return GET_TRANSFERS_RESP;
   });
@@ -439,7 +455,8 @@ var GET_TRANSFER_RESP = {
   }
 };
 nock(TEST_BASE_URI)
-  .get('/transfers/9901234?account_id=' + ACCOUNT_1.id)
+  .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
+  .get('/transfers/9901234?account_id=' + ACCOUNT_1.id + '&expire=XXX')
   .reply(200, function(uri, requestBody) {
     return GET_TRANSFER_RESP;
   });
@@ -462,6 +479,7 @@ var GET_BUTTON_RESP = {
   }
 };
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .get('/buttons/' + GET_BUTTON_RESP.button.code)
   .reply(200, function(uri, requestBody) {
     return GET_BUTTON_RESP;
@@ -486,6 +504,7 @@ var CREATE_BUTTON_RESP = {
   }
 };
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .post('/buttons')
   .reply(200, function(uri, body) {
     var txn = JSON.parse(body);
@@ -531,7 +550,8 @@ var GET_ORDERS_RESP = {
   "current_page": 1
 };
 nock(TEST_BASE_URI)
-  .get('/orders?account_id=' + ACCOUNT_1.id)
+  .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
+  .get('/orders?account_id=' + ACCOUNT_1.id + '&expire=XXX')
   .reply(200, function(uri, requestBody) {
     return GET_ORDERS_RESP;
   });
@@ -565,7 +585,8 @@ var GET_ORDER_RESP = {
   }
 };
 nock(TEST_BASE_URI)
-  .get('/orders/A9901234?account_id=' + ACCOUNT_1.id)
+  .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
+  .get('/orders/A9901234?account_id=' + ACCOUNT_1.id + '&expire=XXX')
   .reply(200, function(uri, requestBody) {
     return GET_ORDER_RESP;
   });
@@ -596,6 +617,7 @@ var CREATE_ORDER_RESP = {
   }
 };
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .post('/orders')
   .reply(200, function(uri, body) {
     var obj = JSON.parse(body);
@@ -640,6 +662,7 @@ var BUY_RESP = {
   }
 };
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .post('/buys')
   .reply(200, function(uri, body) {
     var obj = JSON.parse(body);
@@ -687,6 +710,7 @@ var SELL_RESP = {
   }
 };
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .post('/sells')
   .reply(200, function(uri, body) {
     var obj = JSON.parse(body);

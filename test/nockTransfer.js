@@ -3,6 +3,8 @@
 
 var nock     = require('nock');
 
+
+var EXPIRE_REGEX = /\?expire=[0-9]+/g;
 var TEST_BASE_URI = 'http://mockapi.coinbase.com/v1/';
 
 var XFER_1 = {
@@ -86,6 +88,7 @@ var COMMIT_RESP = {
 };
 
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .post('/transfers/' + XFER_1.id + '/commit')
   .reply(200, function(uri, requestBody) {
     return COMMIT_RESP;
