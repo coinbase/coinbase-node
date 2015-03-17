@@ -9,11 +9,20 @@ The official Node.js library for the [Coinbase API](https://developers.coinbase.
 * Convenient methods for making calls to the API.
 * Automatic parsing of API responses into relevant Javascript objects.
 * Adheres to the nodejs error-first callback protocol.
-* Continuous Integration testing against node 0.10, 0.11., and 0.12.
+* Continuous Integration testing against node 0.10, 0.11, and 0.12.
 
 ## Installation
 
 `npm install coinbase`
+
+## Version Compatibility
+
+Version | GitHub repository
+--------|------------------
+`1.0.0` | This repository
+`0.1.x` | [mateodelnorte/coinbase](https://github.com/mateodelnorte/coinbase)
+
+Npm `coinbase` package name used to refer to the unofficial [coinbase](https://github.com/mateodelnorte/coinbase) library maintained by [Matt Walters](https://github.com/mateodelnorte). Matt graciously allowed us to use the name for this package instead. You can still find that package on [Github](https://github.com/mateodelnorte/coinbase). Thanks, Matt.
 
 ## Quick Start
 
