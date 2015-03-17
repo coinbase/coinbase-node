@@ -19,7 +19,7 @@ The official Node.js library for the [Coinbase API](https://developers.coinbase.
 
 Version | GitHub repository
 --------|------------------
-`1.0.0` | This repository
+`1.0.x` | This repository
 `0.1.x` | [mateodelnorte/coinbase](https://github.com/mateodelnorte/coinbase)
 
 Npm `coinbase` package name used to refer to the unofficial [coinbase](https://github.com/mateodelnorte/coinbase) library maintained by [Matt Walters](https://github.com/mateodelnorte). Matt graciously allowed us to use the name for this package instead. You can still find that package on [Github](https://github.com/mateodelnorte/coinbase). Thanks, Matt.
