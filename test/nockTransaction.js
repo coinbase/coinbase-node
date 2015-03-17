@@ -3,11 +3,12 @@
 
 var nock     = require('nock');
 
+var EXPIRE_REGEX = /\?expire=[0-9]+/g;
 var TEST_BASE_URI = 'http://mockapi.coinbase.com/v1/';
 var ACCOUNT_1 = {
-  "id": "1234", 
+  "id": "1234",
   "balance": {
-    "amount":"0.07", 
+    "amount":"0.07",
     "currency": "BTC"
   }
 };
@@ -38,6 +39,7 @@ var SUCCESS_RESP = {
 };
 
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .put('/transactions/' + TXN_1.id + '/resend_request')
   .reply(200, function(uri, requestBody) {
     return SUCCESS_RESP;
@@ -68,12 +70,14 @@ var COMPLETE_RESP = {
   }
 };
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .put('/transactions/' + TXN_1.id + '/complete_request')
   .reply(200, function(uri, requestBody) {
     return COMPLETE_RESP;
   });
 
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .put('/transactions/' + TXN_1.id + '/cancel_request')
   .reply(200, function(uri, requestBody) {
     return SUCCESS_RESP;

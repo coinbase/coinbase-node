@@ -3,6 +3,8 @@
 
 var nock = require('nock');
 
+
+var EXPIRE_REGEX = /\?expire=[0-9]+/g;
 var TEST_BASE_URI = 'http://mockapi.coinbase.com/v1/';
 
 var REFUND_RESP = {
@@ -47,6 +49,7 @@ var REFUND_RESP = {
 
 var refund_uri = '/orders/' + REFUND_RESP.order.id + '/refund';
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .post(refund_uri)
   .reply(200, function(uri, requestBody) {
     return REFUND_RESP;

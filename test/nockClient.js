@@ -3,6 +3,7 @@
 
 var nock     = require('nock');
 
+var EXPIRE_REGEX = /\?expire=[0-9]+/g;
 var TEST_BASE_URI = 'http://mockapi.coinbase.com/v1/';
 var ACCOUNTS_ID_1 = '54a710dd25dc9a311800003f';
 var ACCOUNTS_ID_2 = '54a710dd25dc9a311800003g';
@@ -16,6 +17,7 @@ var GET_ACCOUNTS_RESP = {'current_page': 1,
 };
 
 var scope1 = nock(TEST_BASE_URI)
+                .filteringPath(EXPIRE_REGEX, '')
                 .get('/accounts')
                 .reply(200, GET_ACCOUNTS_RESP);
 
@@ -38,6 +40,7 @@ var GET_ACCOUNT_RESP = {
   }
 };
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .get('/accounts/' + ACCOUNTS_ID_1)
   .reply(200, function(uri, body) {
     return GET_ACCOUNT_RESP;
@@ -64,6 +67,7 @@ var CREATE_ACCOUNT_RESP = {
   }
 };
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .post('/accounts')
   .reply(200, function(uri, body) {
     var args = JSON.parse(body);
@@ -86,7 +90,8 @@ var GET_CONTACTS_RESP = {
   "current_page": 1
 };
 nock(TEST_BASE_URI)
-  .get('/contacts?page=2&limit=9&query=1234')
+  .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
+  .get('/contacts?page=2&limit=9&query=1234&expire=XXX')
   .reply(200, function(uri, body) {
     return GET_CONTACTS_RESP;
   });
@@ -123,6 +128,7 @@ var GET_CURRENT_USER_RESP = {
   }
 };
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .get('/users/self')
   .reply(200, function(uri, body) {
     return GET_CURRENT_USER_RESP;
@@ -157,7 +163,8 @@ var GET_BUY_PRICE_RESP = {
   }
 };
 nock(TEST_BASE_URI)
-  .get('/prices/buy?qty=2&currency=USD')
+  .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
+  .get('/prices/buy?qty=2&currency=USD&expire=XXX')
   .reply(200, function(uri, body) {
     return GET_BUY_PRICE_RESP;
   });
@@ -190,13 +197,15 @@ var GET_SELL_PRICE_RESP = {
 };
 
 nock(TEST_BASE_URI)
-  .get('/prices/sell?qty=3&currency=USD')
+  .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
+  .get('/prices/sell?qty=3&currency=USD&expire=XXX')
   .reply(200, function(uri, body) {
     return GET_SELL_PRICE_RESP;
   });
 
 var GET_SPOT_RESP = {"amount":"239.16","currency":"USD"};
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
  .get('/prices/spot_rate')
  .reply(200, function(uri, body) {
    return GET_SPOT_RESP;
@@ -209,6 +218,7 @@ var GET_CURRENCIES_RESP = [
   ["Zimbabwean Dollar (ZWL)","ZWL"]
   ];
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
  .get('/currencies')
  .reply(200, function(uri, body) {
    return GET_CURRENCIES_RESP;
@@ -221,6 +231,7 @@ var GET_EX_RATES_RESP = {
   "zwl_to_usd": "0.003102"
 };
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
  .get('/currencies/exchange_rates')
  .reply(200, function(uri, body) {
    return GET_EX_RATES_RESP;
@@ -236,6 +247,7 @@ var CREATE_USER_RESP = {
   "receive_address": "mpJKwdmJKYjiyfNo26eRp4j6qGwuUUnw9x"
 };
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .post('/users')
   .reply(200, function(uri, body) {
     var args = JSON.parse(body);
@@ -268,6 +280,7 @@ var GET_PAYMENT_METHODS_RESP = {
   "default_sell": "530eb5b217cb34e07a000011"
 };
 nock(TEST_BASE_URI)
+ .filteringPath(EXPIRE_REGEX, '')
  .get('/payment_methods')
  .reply(200, function(uri, body) {
    return GET_PAYMENT_METHODS_RESP;
@@ -282,6 +295,7 @@ var GET_PAYMENT_METHOD_RESP = {
   }
 };
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .get('/payment_methods/' + GET_PAYMENT_METHOD_RESP.payment_method.id)
   .reply(200, function(uri, body) {
     return GET_PAYMENT_METHOD_RESP;

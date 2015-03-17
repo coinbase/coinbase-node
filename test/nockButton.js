@@ -3,11 +3,13 @@
 
 var nock     = require('nock');
 
+var EXPIRE_REGEX = /\?expire=[0-9]+/g;
+
 var TEST_BASE_URI = 'http://mockapi.coinbase.com/v1/';
 var ACCOUNT_1 = {
-  "id": "1234", 
+  "id": "1234",
   "balance": {
-    "amount":"0.07", 
+    "amount":"0.07",
     "currency": "BTC"
   }
 };
@@ -31,6 +33,7 @@ var GET_BUTTON_RESP = {
 };
 
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .get('/buttons/' + GET_BUTTON_RESP.button.code)
   .reply(200, function(uri, requestBody) {
     return GET_BUTTON_RESP;
@@ -69,15 +72,17 @@ var GET_ORDERS_RESP = {
 };
 
 var buttonOrdersPath = '/buttons/' + GET_BUTTON_RESP.button.code +
-      '/orders?account_id=' + ACCOUNT_1.id;
+      '/orders?account_id=' + ACCOUNT_1.id + '&expire=XXX';
 nock(TEST_BASE_URI)
+  .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
   .get(buttonOrdersPath)
   .reply(200, function(uri, body) {
     return GET_ORDERS_RESP;
   });
 
-//setup another 
+//setup another
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .get('/buttons/' + GET_BUTTON_RESP.button.code)
   .reply(200, function(uri, requestBody) {
     return GET_BUTTON_RESP;
@@ -112,6 +117,7 @@ var CREATE_ORDER_RESP = {
 var buttonCreatePath = '/buttons/' + GET_BUTTON_RESP.button.code +
       '/create_order';
 nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
   .post(buttonCreatePath)
   .reply(200, function(uri, body) {
     return CREATE_ORDER_RESP;
