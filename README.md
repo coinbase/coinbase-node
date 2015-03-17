@@ -34,7 +34,7 @@ If you're writing code for your own Coinbase account, [enable an API key](https:
 
 
 ```javascript
-var Client = require('coinbase-node').Client;
+var Client = require('coinbase').Client;
 var client = new Client({'apiKey': mykey, 'apiSecret': mysecret});
 ```
 
@@ -44,7 +44,7 @@ If you're writing code that will act on behalf of another user, start by
 [creating a new OAuth 2 application](https://coinbase.com/oauth/applications). You will need to do some work to obtain OAuth credentials for your users; while outside the scope of this document, please refer to our [OAuth 2 tutorial](https://www.coinbase.com/docs/api/oauth_tutorial) and [documentation](https://www.coinbase.com/docs/api/authentication#oauth2). Once you have these credentials, create a client:
 
 ```javascript
-var Client = require('coinbase-node').Client;
+var Client = require('coinbase').Client;
 var client = new Client({
                           'apiKey'       : mykey,
                           'apiSecret'    : mysecret,
@@ -60,7 +60,7 @@ With a `client instance`, you can now make API calls. We've included some exampl
 **Listing available accounts**
 
 ```javascript
-var coinbase = require('coinbase-node');
+var coinbase = require('coinbase');
 var client   = new coinbase.Client({'apiKey': mykey, 'apiSecret': mysecret});
 
 client.getAccounts(function(err, accounts) {
@@ -73,7 +73,7 @@ client.getAccounts(function(err, accounts) {
 **Get Balance from an Account Id**
 
 ```javascript
-var Account   = require('coinbase-node').model.Account;
+var Account   = require('coinbase').model.Account;
 var myBtcAcct = new Account(client, {'id': '<SOME_ACCOUNT_ID>'});
 
 myBtcAcct.getBalance(function(err, bal) {
