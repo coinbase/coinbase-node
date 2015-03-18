@@ -1,12 +1,14 @@
 {
   "name": "coinbase",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Coinbase",
   "bugs": "https://github.com/coinbase/coinbase-node/issues",
   "contributors": [
-    { "email": "api@coinbase.com",
+    {
+      "email": "api@coinbase.com",
       "name": "Coinbase",
-      "url": "https://developers.coinbase.com" }
+      "url": "https://developers.coinbase.com"
+    }
   ],
   "dependencies": {
     "lodash": "3.1.0",
@@ -41,4 +43,3 @@
     "docs": "node_modules/.bin/docco lib/Client.js lib/model/Account.js lib/model/Button.js lib/model/Transaction.js lib/model/Transfer.js lib/model/Order.js lib/model/User.js lib/model/PaymentMethod.js lib/model/Contact.js lib/errorTypes.js"
   }
 }
-
