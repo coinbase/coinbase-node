@@ -1,6 +1,5 @@
 {
   "name": "coinbase",
-  "readme": "README.md",
   "version": "1.0.1",
   "author": "Coinbase",
   "bugs": "https://github.com/coinbase/coinbase-node/issues",
