@@ -46,8 +46,8 @@ If you're writing code that will act on behalf of another user, start by
 ```javascript
 var Client = require('coinbase').Client;
 var client = new Client({
-                          'apiKey'       : mykey,
-                          'apiSecret'    : mysecret,
+                          'apiKey'       : " ",
+                          'apiSecret'    : " ",
                           'accessToken'  : accessToken,
                           'refreshToken' : refreshToken
                         });
