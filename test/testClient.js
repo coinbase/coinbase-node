@@ -33,8 +33,28 @@ describe('Client', function() {
       assert(false);
     });
 
+    it('should work support oauth', function() {
+      var cl1 = Client({ accessToken: 'mytoken', 'baseApiUri': na.TEST_BASE_URI })
+      assert.equal(cl1.accessToken, 'mytoken');
+      assert(cl1 instanceof Client);
+    })
+
+    it('should support an optional refresh token', function() {
+      var cl1 = Client({ accessToken: 'mytoken', refreshToken: 'refreshtoken', 'baseApiUri': na.TEST_BASE_URI })
+      assert.equal(cl1.accessToken, 'mytoken');
+      assert.equal(cl1.refreshToken, 'refreshtoken');
+      assert(cl1 instanceof Client);
+    })
+
+    it('should throw if the we do not pass the access token or api credentials', function() {
+      try {
+        Client({ 'baseApiUri': na.TEST_BASE_URI })
+      } catch (e) {
+        assert.equal(e.message, 'you must either provide an "accessToken" or the "apiKey" & "apiSecret" parameters')
+      }
+    })
   });
-  
+
   describe('client methods', function() {
 
     var client = new Client({'apiKey': 'mykey', 'apiSecret': 'mysecret', 'baseApiUri': na.TEST_BASE_URI});
@@ -43,9 +63,9 @@ describe('Client', function() {
         assert.equal(err, null, err);
         assert(accounts, "no accounts");
         assert.equal(accounts.length, 2, "wrong number of accounts");
-        assert.equal(accounts[0].id, na.ACCOUNTS_ID_1, 
+        assert.equal(accounts[0].id, na.ACCOUNTS_ID_1,
           "wrong account id: " + accounts[0].id);
-        assert.equal(accounts[1].id, na.ACCOUNTS_ID_2, 
+        assert.equal(accounts[1].id, na.ACCOUNTS_ID_2,
           "wrong account id: " + accounts[1].id);
       });
     });
@@ -75,7 +95,7 @@ describe('Client', function() {
         assert.equal(err, null, err);
         assert(contacts, 'no contacts');
         assert(contacts[0].email, "no email");
-        assert.equal(contacts[0].email, 
+        assert.equal(contacts[0].email,
           na.GET_CONTACTS_RESP.contacts[0].contact.email,
           'wrong contacts: ' + contacts[0].email);
       });
@@ -86,7 +106,7 @@ describe('Client', function() {
         assert.equal(err, null, err);
         assert(user, 'no user');
         assert(user.name, "no email");
-        assert.equal(user.name, 
+        assert.equal(user.name,
           na.GET_CURRENT_USER_RESP.user.name,
           'wrong user: ' + user.name);
 
@@ -178,14 +198,13 @@ describe('Client', function() {
     });
 
     it('should get payment method', function() {
-      client.getPaymentMethod(na.GET_PAYMENT_METHOD_RESP.payment_method.id, 
+      client.getPaymentMethod(na.GET_PAYMENT_METHOD_RESP.payment_method.id,
         function(err, pm) {
         assert.equal(err, null, err);
         assert(pm, 'no payment method');
-        assert.equal(pm.id, na.GET_PAYMENT_METHOD_RESP.payment_method.id, 
+        assert.equal(pm.id, na.GET_PAYMENT_METHOD_RESP.payment_method.id,
           'wrong payment method');
       });
     });
   });
 });
-
