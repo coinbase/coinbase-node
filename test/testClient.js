@@ -49,6 +49,16 @@ describe('Client', function() {
     it('should throw if the we do not pass the access token or api credentials', function() {
       try {
         Client({ 'baseApiUri': na.TEST_BASE_URI })
+        throw new Error('failed');
+      } catch (e) {
+        assert.equal(e.message, 'you must either provide an "accessToken" or the "apiKey" & "apiSecret" parameters')
+      }
+    })
+
+    it('should throw if both the api key + secret and the access token is used', function() {
+      try {
+        Client({ 'accessToken': 'mytoken', 'apiKey': 'mykey', 'apiSecret': 'mysecret' })
+        throw new Error('failed');
       } catch (e) {
         assert.equal(e.message, 'you must either provide an "accessToken" or the "apiKey" & "apiSecret" parameters')
       }
