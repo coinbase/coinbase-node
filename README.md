@@ -5,7 +5,7 @@ The official Node.js library for the [Coinbase API](https://developers.coinbase.
 ## Features
 
 * Full Test coverage.
-* Support for both [API Key + Secret](https://coinbase.com/docs/api/authentication#hmac) and [OAuth 2](https://coinbase.com/docs/api/authentication#oauth2) authentication.
+* Support for both [API Key + Secret](https://coinbase.com/docs/v1/api/authentication#hmac) and [OAuth 2](https://coinbase.com/docs/v1/api/authentication#oauth2) authentication.
 * Convenient methods for making calls to the API.
 * Automatic parsing of API responses into relevant Javascript objects.
 * Adheres to the nodejs error-first callback protocol.
@@ -28,7 +28,7 @@ Npm `coinbase` package name used to refer to the unofficial [coinbase](https://g
 
 The first thing you'll need to do is [sign up for coinbase](https://coinbase.com).
 
-## API Key + Secret
+## API Key
 
 If you're writing code for your own Coinbase account, [enable an API key](https://coinbase.com/settings/api). Next, create a ``Client`` object for interacting with the API:
 
@@ -41,21 +41,29 @@ var client = new Client({'apiKey': mykey, 'apiSecret': mysecret});
 ## OAuth2
 
 If you're writing code that will act on behalf of another user, start by
-[creating a new OAuth 2 application](https://coinbase.com/oauth/applications). You will need to do some work to obtain OAuth credentials for your users; while outside the scope of this document, please refer to our [OAuth 2 tutorial](https://www.coinbase.com/docs/api/oauth_tutorial) and [documentation](https://www.coinbase.com/docs/api/authentication#oauth2). Once you have these credentials, create a client:
+[creating a new OAuth 2 application](https://coinbase.com/oauth/applications). You will need to do some work to obtain OAuth credentials for your users; while outside the scope of this document, please refer to our [OAuth 2 tutorial](https://www.coinbase.com/docs/v1/api/oauth_tutorial) and [documentation](https://www.coinbase.com/docs/v1/api/authentication#oauth2). Once you have these credentials, create a client:
+
+```javascript
+var Client = require('coinbase').Client;
+var client = new Client({'accessToken': accessToken, 'refreshToken': refreshToken});
+```
+
+## Coinbase Sandbox
+
+To use this library with Coinbase Sandbox, you need to initialize the library with following params:
 
 ```javascript
 var Client = require('coinbase').Client;
 var client = new Client({
-                          'apiKey'       : mykey,
-                          'apiSecret'    : mysecret,
-                          'accessToken'  : accessToken,
-                          'refreshToken' : refreshToken
-                        });
+  < api keys or access tokens here>
+  'baseApiUri': 'https://api.sandbox.coinbase.com/v1/',
+  'tokenUri': 'https://api.sandbox.coinbase.com/oauth/token'
+});
 ```
 
 ## Making API Calls
 
-With a `client instance`, you can now make API calls. We've included some examples below, but in general the library has Javascript prototypes for each of the objects described in our [REST API documentation](https://developers.coinbase.com/api).  These classes each have methods for making the relevant API calls; for instance, ``coinbase.model.Transaction.complete`` maps to the [complete bitcoin request](https://developers.coinbase.com/api#complete-bitcoin-request) API endpoint. The comments of each method in the code references the endpoint it implements. Each API method returns an ``object`` representing the JSON response from the API.
+With a `client instance`, you can now make API calls. We've included some examples below, but in general the library has Javascript prototypes for each of the objects described in our [REST API documentation](https://developers.coinbase.com/api).  These classes each have methods for making the relevant API calls; for instance, ``coinbase.model.Transaction.complete`` maps to the [complete bitcoin request](https://developers.coinbase.com/api/v1#complete-bitcoin-request) API endpoint. The comments of each method in the code references the endpoint it implements. Each API method returns an ``object`` representing the JSON response from the API.
 
 **Listing available accounts**
 
