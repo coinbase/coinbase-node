@@ -34,7 +34,7 @@ describe('model.Account', function(){
       account.getBalance(function(err, balance) {
         assert.equal(err, null, err);
         assert(balance);
-        assert.equal(balance.amount, na.ACCOUNT_2.balance.amount,
+        assert.equal(balance.amount, na.ACCOUNT_2.balance.amount, 
           "wrong balance");
       });
     });
@@ -103,7 +103,7 @@ describe('model.Account', function(){
 
     //BROKEN against production when adding query TODO
     it('should get addresses with params', function() {
-      btcAccount.getAddresses(1, null, "moLxGrqWNcnGq4A8Caq8EGP4n9GUGWanj4",
+      btcAccount.getAddresses(1, null, "moLxGrqWNcnGq4A8Caq8EGP4n9GUGWanj4", 
         function(err, result) {
         assert.equal(err, null, err);
         assert(result);
@@ -116,7 +116,7 @@ describe('model.Account', function(){
       btcAccount.getAddress(function(err, result) {
         assert.equal(err, null, err);
         assert(result);
-        assert.equal(result.address.id, na.GET_ADDRESS_RESP.address.id,
+        assert.equal(result.address.id, na.GET_ADDRESS_RESP.address.id, 
           "can not get address: " + JSON.stringify(result));
         assert.equal(result.address.label, na.GET_ADDRESS_RESP.address.label,
           "can not get address: " + JSON.stringify(result));
@@ -140,7 +140,7 @@ describe('model.Account', function(){
       btcAccount.getTransactions(null, null, function(err, result) {
         assert.equal(err, null, err);
         assert(result);
-        assert.equal(result.length,
+        assert.equal(result.length, 
           na.GET_TRANSACTIONS_RESP.transactions.length,
           "can not get transactions: " + JSON.stringify(result));
       });
@@ -201,7 +201,7 @@ describe('model.Account', function(){
       btcAccount.getTransfers(null, null, function(err, result) {
         assert.equal(err, null, err);
         assert(result);
-        assert.equal(result.length,
+        assert.equal(result.length, 
           na.GET_TRANSFERS_RESP.transfers.length,
           "can not get transfers: " + JSON.stringify(result));
       });
@@ -250,7 +250,7 @@ describe('model.Account', function(){
       btcAccount.getOrders(null, null, function(err, result) {
         assert.equal(err, null, err);
         assert(result);
-        assert.equal(result.length,
+        assert.equal(result.length, 
           na.GET_ORDERS_RESP.orders.length,
           "can not get orders: " + JSON.stringify(result));
       });
@@ -303,26 +303,6 @@ describe('model.Account', function(){
           "can not sell: " + JSON.stringify(transfer));
       });
     });
-
-    it('should get subscriptions', function() {
-      btcAccount.getSubscriptions(null, null, function(err, result) {
-        assert.equal(err, null, err);
-        assert(result);
-        assert.equal(result.length,
-          na.GET_SUBSCRIPTIONS_RESP.recurring_payments.length,
-          "can not get subscriptions: " + JSON.stringify(result));
-      });
-    });
-
-    it('should get subscription', function() {
-      btcAccount.getSubscription('51a7cf58f8182b4b220000d5', function(err, subscription) {
-        assert.equal(err, null, err);
-        assert(subscription);
-        assert.equal(subscription.id, na.GET_SUBSCRIPTION_RESP.recurring_payment.id,
-          "can not get subscription: " + JSON.stringify(subscription));
-      });
-    });
-
   });
 });
 
