@@ -721,6 +721,69 @@ nock(TEST_BASE_URI)
     return null;
   });
 
+var GET_SUBSCRIPTIONS_RESP = {
+  "recurring_payments": [
+    {
+      "recurring_payment": {
+        "id": "51a7cf58f8182b4b220000d5",
+        "created_at": "2013-05-30T15:14:48-07:00",
+        "status": "active",
+        "custom": "user123",
+        "button": {
+          "type": "subscription",
+          "name": "Test",
+          "description": "",
+          "id": "1b7a1019f371402ec02af389d1b24e55"
+        }
+      }
+    },
+    {
+      "recurring_payment": {
+        "id": "51a7be2ff8182b4b220000a5",
+        "created_at": "2013-05-30T14:01:35-07:00",
+        "status": "paused",
+        "custom": "user456",
+        "button": {
+          "type": "subscription",
+          "name": "Test",
+          "description": "",
+          "id": "1b7a1019f371402ec02af389d1b24e55"
+        }
+      }
+    }
+  ],
+  "total_count": 2,
+  "num_pages": 1,
+  "current_page": 1
+};
+nock(TEST_BASE_URI)
+  .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
+  .get('/subscribers?account_id=' + ACCOUNT_1.id + '&expire=XXX')
+  .reply(200, function(uri, requestBody) {
+    return GET_ORDERS_RESP;
+  });
+
+var GET_SUBSCRIPTION_RESP = {
+  "recurring_payment": {
+    "id": "51a7cf58f8182b4b220000d5",
+    "created_at": "2013-05-30T15:14:48-07:00",
+    "status": "active",
+    "custom": "user123",
+    "button": {
+      "type": "subscription",
+      "name": "Test",
+      "description": "",
+      "id": "1b7a1019f371402ec02af389d1b24e55"
+    }
+  }
+};
+nock(TEST_BASE_URI)
+  .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
+  .get('/subscribers/51a7cf58f8182b4b220000d5?account_id=' + ACCOUNT_1.id + '&expire=XXX')
+  .reply(200, function(uri, requestBody) {
+    return GET_ORDER_RESP;
+  });
+
 module.exports.SUCCESS_TRUE_RESPONSE= SUCCESS_TRUE_RESPONSE;
 module.exports.GET_BAL_RESP_1       = GET_BAL_RESP_1       ;
 module.exports.GET_BAL_RESP_2       = GET_BAL_RESP_2       ;
@@ -741,9 +804,10 @@ module.exports.GET_ORDER_RESP       = GET_ORDER_RESP       ;
 module.exports.CREATE_ORDER_RESP    = CREATE_ORDER_RESP    ;
 module.exports.BUY_RESP             = BUY_RESP             ;
 module.exports.SELL_RESP            = SELL_RESP            ;
+module.exports.GET_SUBSCRIPTIONS_RESP=GET_SUBSCRIPTIONS_RESP;
+module.exports.GET_SUBSCRIPTION_RESP= GET_SUBSCRIPTION_RESP;
 module.exports.TEST_BASE_URI        = TEST_BASE_URI        ;
 module.exports.ACCOUNT_1            = ACCOUNT_1            ;
 module.exports.ACCOUNT_2            = ACCOUNT_2            ;
 module.exports.ACCOUNT_3            = ACCOUNT_3            ;
 module.exports.MODIFY_ACCOUNT_RESP  = MODIFY_ACCOUNT_RESP  ;
-
