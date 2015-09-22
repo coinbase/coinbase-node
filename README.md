@@ -144,6 +144,13 @@ client.getBuyPrice({'qty': 100, 'currency': 'USD'}, function(err, obj) {
 });
 ```
 
+**Verifying merchant callback authenticity**
+```javascript
+if (client.verifyCallback(req.raw_body, req.headers['X-Signature'])) {
+  // Process callback
+}
+```
+
 ## Error Handling
 
 Errors are thrown for invalid arguments but are otherwise returned as the
