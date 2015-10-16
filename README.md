@@ -1,11 +1,11 @@
 # Coinbase
 
-The official Node.js library for the [Coinbase API](https://developers.coinbase.com/api).
+The official Node.js library for the [Coinbase API](https://developers.coinbase.com/api/v2).
 
 ## Features
 
 * Full Test coverage.
-* Support for both [API Key + Secret](https://coinbase.com/docs/v1/api/authentication#hmac) and [OAuth 2](https://coinbase.com/docs/v1/api/authentication#oauth2) authentication.
+* Support for both [API Key + Secret](https://developers.coinbase.com/api/v2#api-key) and [OAuth 2](https://developers.coinbase.com/api/v2#oauth2-coinbase-connect) authentication.
 * Convenient methods for making calls to the API.
 * Automatic parsing of API responses into relevant Javascript objects.
 * Adheres to the nodejs error-first callback protocol.
@@ -19,7 +19,7 @@ The official Node.js library for the [Coinbase API](https://developers.coinbase.
 
 Version | GitHub repository
 --------|------------------
-`1.0.x` | This repository
+`2.0.x` | This repository
 `0.1.x` | [mateodelnorte/coinbase](https://github.com/mateodelnorte/coinbase)
 
 Npm `coinbase` package name used to refer to the unofficial [coinbase](https://github.com/mateodelnorte/coinbase) library maintained by [Matt Walters](https://github.com/mateodelnorte). Matt graciously allowed us to use the name for this package instead. You can still find that package on [Github](https://github.com/mateodelnorte/coinbase). Thanks, Matt.
@@ -41,7 +41,7 @@ var client = new Client({'apiKey': mykey, 'apiSecret': mysecret});
 ## OAuth2
 
 If you're writing code that will act on behalf of another user, start by
-[creating a new OAuth 2 application](https://coinbase.com/oauth/applications). You will need to do some work to obtain OAuth credentials for your users; while outside the scope of this document, please refer to our [OAuth 2 tutorial](https://www.coinbase.com/docs/v1/api/oauth_tutorial) and [documentation](https://www.coinbase.com/docs/v1/api/authentication#oauth2). Once you have these credentials, create a client:
+[creating a new OAuth 2 application](https://coinbase.com/oauth/applications). You will need to do some work to obtain OAuth credentials for your users; while outside the scope of this document, please refer to our [OAuth 2 tutorial](https://developers.coinbase.com/docs/wallet/coinbase-connect/integrating) and [documentation](https://developers.coinbase.com/docs/wallet/coinbase-connect/reference). Once you have these credentials, create a client:
 
 ```javascript
 var Client = require('coinbase').Client;
@@ -56,14 +56,14 @@ To use this library with Coinbase Sandbox, you need to initialize the library wi
 var Client = require('coinbase').Client;
 var client = new Client({
   < api keys or access tokens here>
-  'baseApiUri': 'https://api.sandbox.coinbase.com/v1/',
+  'baseApiUri': 'https://api.sandbox.coinbase.com/v2/',
   'tokenUri': 'https://api.sandbox.coinbase.com/oauth/token'
 });
 ```
 
 ## Making API Calls
 
-With a `client instance`, you can now make API calls. We've included some examples below, but in general the library has Javascript prototypes for each of the objects described in our [REST API documentation](https://developers.coinbase.com/api).  These classes each have methods for making the relevant API calls; for instance, ``coinbase.model.Transaction.complete`` maps to the [complete bitcoin request](https://developers.coinbase.com/api/v1#complete-bitcoin-request) API endpoint. The comments of each method in the code references the endpoint it implements. Each API method returns an ``object`` representing the JSON response from the API.
+With a `client instance`, you can now make API calls. We've included some examples below, but in general the library has Javascript prototypes for each of the objects described in our [REST API documentation](https://developers.coinbase.com/api/v2).  These classes each have methods for making the relevant API calls; for instance, ``coinbase.model.Transaction.complete`` maps to the [complete bitcoin request](https://developers.coinbase.com/api/v2#complete-request-money) API endpoint. The comments of each method in the code references the endpoint it implements. Each API method returns an ``object`` representing the JSON response from the API.
 
 **Listing available accounts**
 
@@ -71,7 +71,7 @@ With a `client instance`, you can now make API calls. We've included some exampl
 var coinbase = require('coinbase');
 var client   = new coinbase.Client({'apiKey': mykey, 'apiSecret': mysecret});
 
-client.getAccounts(function(err, accounts) {
+client.getAccounts({}, function(err, accounts) {
   accounts.forEach(function(acct) {
     console.log('my bal: ' + acct.balance.amount + ' for ' + acct.name);
   });
@@ -81,11 +81,11 @@ client.getAccounts(function(err, accounts) {
 **Get Balance from an Account Id**
 
 ```javascript
-var Account   = require('coinbase').model.Account;
-var myBtcAcct = new Account(client, {'id': '<SOME_ACCOUNT_ID>'});
+var coinbase = require('coinbase');
+var client   = new coinbase.Client({'apiKey': mykey, 'apiSecret': mysecret});
 
-myBtcAcct.getBalance(function(err, bal) {
-  console.log('bal: ' + bal.amount + ' currency: ' + bal.currency);
+client.getAccount('<ACCOUNT ID>', function(err, account) {
+  console.log('bal: ' + account.balance.amount + ' currency: ' + account.balance.currency);
 });
 ```
 
@@ -93,7 +93,8 @@ myBtcAcct.getBalance(function(err, bal) {
 
 ```javascript
 var args = {
-  "qty": "12"
+  "amount": "12",
+  "currency": "BTC"
 };
 account.sell(args, function(err, xfer) {
   console.log('my xfer id is: ' + xfer.id);
@@ -106,7 +107,8 @@ account.sell(args, function(err, xfer) {
 var args = {
   "to": "user1@example.com",
   "amount": "1.234",
-  "notes": "Sample transaction for you"
+  "currency": "BTC",
+  "description": "Sample transaction for you"
 };
 account.sendMoney(args, function(err, txn) {
   console.log('my txn id is: ' + txn.id);
@@ -117,9 +119,10 @@ account.sendMoney(args, function(err, txn) {
 
 ```javascript
 var args = {
-  "from": "user1@example.com",
+  "to": "user1@example.com",
   "amount": "1.234",
-  "notes": "Sample transaction for you"
+  "currency": "BTC",
+  "description": "Sample transaction for you"
 };
 account.requestMoney(args, function(err, txn) {
   console.log('my txn id is: ' + txn.id);
@@ -129,7 +132,7 @@ account.requestMoney(args, function(err, txn) {
 **Listing current transactions**
 
 ```javascript
-account.getTransactions(null, null, function(err, txns) {
+account.getTransactions(null, function(err, txns) {
   txns.forEach(function(txn) {
     console.log('my txn status: ' + txn.status);
   });
@@ -139,8 +142,8 @@ account.getTransactions(null, null, function(err, txns) {
 **Checking bitcoin prices**
 
 ```javascript
-client.getBuyPrice({'qty': 100, 'currency': 'USD'}, function(err, obj) {
-  console.log('total amount: ' + obj.total.amount);
+client.getBuyPrice({'currency': 'USD'}, function(err, obj) {
+  console.log('total amount: ' + obj.data.amount);
 });
 ```
 
@@ -154,51 +157,10 @@ if (client.verifyCallback(req.raw_body, req.headers['X-Signature'])) {
 ## Error Handling
 
 Errors are thrown for invalid arguments but are otherwise returned as the
-first argument to callback functions.
+first argument to callback functions using [http-errors](https://github.com/jshttp/http-errors) module.
 
-Errors contain `type` properties so that you can route the error to the
-right handler code.  The possible types are:
-
-Type | Description
- ---- | -----------
-AuthenticationError | returned if there was an authentication error
-InvalidAccessToken | returned when the current access token is no longer valid
-ExpiredAccessToken | returned when the current access token is expired
-TokenRefreshError | returned when there is a failure refreshing the access token
-TwoFactorTokenRequired | returned when a user's Two Factor Auth token needs to be included in the request
-APIError | returned for errors related to interacting with the Coinbase API server
-
-```javascript
-acct.getBalance(function(err, bal) {
-  switch (err.type) {
-    case 'ExpiredAccessToken':
-      // use the client.refresh API to get a new access_token
-      break;
-    case 'InvalidAccessToken':
-      //handle error
-      break;
-    case 'AuthenticationError':
-      //handle error
-      break;
-    }
-});
-```
-
-Errors are always of the type `Error` and can print a trace:
-
-```javascript
-acct.getBalance(function(err, bal) {
-  if (err) console.log('Where did this error come from?\n' + err.stack);
-});
-```
-
-Errors that are related to an http request will have a `response` field with the entire http response:
-
-```javascript
-acct.getBalance(function(err, bal) {
-  if (err) console.log('http error code: ' + err.response.statusCode);
-});
-```
+Errors contain `name`, `status`, and `message` fields for error handling. You can find 
+more information about error types [here](https://developers.coinbase.com/api/v2#errors)
 
 ## Testing / Contributing
 
@@ -221,11 +183,3 @@ You can also run the tests against various node environments using the Dockerfil
 2. edit Dockerfile and uncomment the node version that interests you
 3. `[sudo] docker build -t coinbase-node .`
 4. `[sudo] docker run -it coinbase-node`
-
-## More Documentation
-
-You can generate html documentation by running the command:
-
-`npm install && npm run docs`
-
-Open generated html files in `docs/` dir with a browser.
