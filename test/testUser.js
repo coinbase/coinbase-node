@@ -44,7 +44,7 @@ describe('model.User', function(){
       };
       assert.equal(na.USER_1.native_currency, 'USD', 'not correct start currency');
       assert.equal(user.native_currency, 'USD', 'not correct currency');
-      user.modify(args, function(err, update) {
+      user.update(args, function(err, update) {
         assert.equal(err, null, err);
         assert(update, 'no updated user');
         assert.equal(update.native_currency, 'CAD', 'not updated');

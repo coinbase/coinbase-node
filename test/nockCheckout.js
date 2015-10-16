@@ -5,7 +5,7 @@ var nock     = require('nock');
 
 var EXPIRE_REGEX = /\?expire=[0-9]+/g;
 
-var TEST_BASE_URI = 'http://mockapi.coinbase.com/v1/';
+var TEST_BASE_URI = 'http://mockapi.coinbase.com/v2/';
 var ACCOUNT_1 = {
   "id": "1234",
   "balance": {
@@ -14,9 +14,9 @@ var ACCOUNT_1 = {
   }
 };
 
-var GET_BUTTON_RESP = {
-  "button": {
-    "code": "93865b9cae83706ae59220c013bc0afd",
+var GET_CHECKOUT_RESP = {
+  "data": {
+    "id": "93865b9cae83706ae59220c013bc0afd",
     "type": "buy_now",
     "subscription": false,
     "style": "custom_large",
@@ -34,15 +34,14 @@ var GET_BUTTON_RESP = {
 
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
-  .get('/buttons/' + GET_BUTTON_RESP.button.code)
+  .get('/checkouts/' + GET_CHECKOUT_RESP.data.code)
   .reply(200, function(uri, requestBody) {
-    return GET_BUTTON_RESP;
+    return GET_CHECKOUT_RESP;
   });
 
 var GET_ORDERS_RESP = {
-  "orders": [
+  "data": [
     {
-      "order": {
         "id": "7RTTRDVP",
         "created_at": "2013-11-09T22:47:10-08:00",
         "status": "new",
@@ -63,16 +62,11 @@ var GET_ORDERS_RESP = {
         "id": "93865b9cae83706ae59220c013bc0afd"
         },
         "transaction": null
-      }
     }
   ],
-  "total_count": 1,
-  "num_pages": 1,
-  "current_page": 1,
 };
 
-var buttonOrdersPath = '/buttons/' + GET_BUTTON_RESP.button.code +
-      '/orders?account_id=' + ACCOUNT_1.id + '&expire=XXX';
+var buttonOrdersPath = '/checkouts/' + GET_CHECKOUT_RESP.data.id + '/orders';
 nock(TEST_BASE_URI)
   .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
   .get(buttonOrdersPath)
@@ -83,14 +77,13 @@ nock(TEST_BASE_URI)
 //setup another
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
-  .get('/buttons/' + GET_BUTTON_RESP.button.code)
+  .get('/checkouts/' + GET_CHECKOUT_RESP.data.id)
   .reply(200, function(uri, requestBody) {
-    return GET_BUTTON_RESP;
+    return GET_CHECKOUT_RESP;
   });
 
 var CREATE_ORDER_RESP = {
-  "success": true,
-  "order": {
+  "data": {
   "id": "7RTTRDVP",
   "created_at": "2013-11-09T22:47:10-08:00",
   "status": "new",
@@ -114,8 +107,7 @@ var CREATE_ORDER_RESP = {
   }
 };
 
-var buttonCreatePath = '/buttons/' + GET_BUTTON_RESP.button.code +
-      '/create_order';
+var buttonCreatePath = '/checkouts/' + GET_CHECKOUT_RESP.data.id + '/orders';
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .post(buttonCreatePath)
@@ -125,7 +117,7 @@ nock(TEST_BASE_URI)
 
 module.exports.TEST_BASE_URI     = TEST_BASE_URI    ;
 module.exports.ACCOUNT_1         = ACCOUNT_1        ;
-module.exports.GET_BUTTON_RESP   = GET_BUTTON_RESP  ;
+module.exports.GET_CHECKOUT_RESP = GET_CHECKOUT_RESP;
 module.exports.GET_ORDERS_RESP   = GET_ORDERS_RESP  ;
 module.exports.CREATE_ORDER_RESP = CREATE_ORDER_RESP;
 

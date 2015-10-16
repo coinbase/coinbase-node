@@ -69,7 +69,7 @@ describe('Client', function() {
 
     var client = new Client({'apiKey': 'mykey', 'apiSecret': 'mysecret', 'baseApiUri': na.TEST_BASE_URI});
     it('should get accounts', function() {
-      client.getAccounts(function(err, accounts) {
+      client.getAccounts({}, function(err, accounts) {
         assert.equal(err, null, err);
         assert(accounts, "no accounts");
         assert.equal(accounts.length, 2, "wrong number of accounts");
@@ -100,49 +100,38 @@ describe('Client', function() {
       });
     });
 
-    it('should get contacts', function() {
-      client.getContacts(2, 9, '1234', function(err, contacts) {
-        assert.equal(err, null, err);
-        assert(contacts, 'no contacts');
-        assert(contacts[0].email, "no email");
-        assert.equal(contacts[0].email,
-          na.GET_CONTACTS_RESP.contacts[0].contact.email,
-          'wrong contacts: ' + contacts[0].email);
-      });
-    });
-
     it('should get current user', function() {
       client.getCurrentUser(function(err, user) {
         assert.equal(err, null, err);
         assert(user, 'no user');
         assert(user.name, "no email");
         assert.equal(user.name,
-          na.GET_CURRENT_USER_RESP.user.name,
+          na.GET_CURRENT_USER_RESP.data.name,
           'wrong user: ' + user.name);
 
       });
     });
 
     it('should get buy price', function() {
-      client.getBuyPrice({'qty': 2, 'currency': 'USD'}, function(err, obj) {
+      client.getBuyPrice({}, function(err, obj) {
         assert.equal(err, null, err);
         assert(obj, 'no price');
-        assert(obj.total.amount, "no amount");
-        assert.equal(obj.total.amount,
-          na.GET_BUY_PRICE_RESP.total.amount,
-          'wrong amount: ' + obj.total.amount);
+        assert(obj.data.amount, "no amount");
+        assert.equal(obj.data.amount,
+          na.GET_BUY_PRICE_RESP.data.amount,
+          'wrong amount: ' + obj.data.amount);
 
       });
     });
 
     it('should sell price', function() {
-      client.getSellPrice({'qty': 3, 'currency': "USD"}, function(err, obj) {
+      client.getSellPrice({}, function(err, obj) {
         assert.equal(err, null, err);
         assert(obj, 'no price');
-        assert(obj.subtotal.amount, "no amount");
-        assert.equal(obj.subtotal.amount,
-          na.GET_SELL_PRICE_RESP.subtotal.amount,
-          'wrong amount: ' + obj.subtotal.amount);
+        assert(obj.data.amount, "no amount");
+        assert.equal(obj.data.amount,
+          na.GET_SELL_PRICE_RESP.data.amount,
+          'wrong amount: ' + obj.data.amount);
       });
     });
 
@@ -169,50 +158,32 @@ describe('Client', function() {
     });
 
     it('should get exchange rates', function() {
-      client.getExchangeRates(function(err, obj) {
+      client.getExchangeRates({}, function(err, obj) {
         assert.equal(err, null, err);
         assert(obj, 'no rates');
-        assert(obj.zwl_to_btc, "no rate");
-        assert.equal(obj.zwl_to_btc,
-          na.GET_EX_RATES_RESP.zwl_to_btc,
-          'wrong rate: ' + obj.zwl_to_btc);
-      });
-    });
-
-    it('should create user', function() {
-      var args = {
-        "user": {
-          "email": "newuser@example.com",
-          "password": "test123!"
-        }
-      };
-      client.createUser(args, function(err, obj) {
-        assert.equal(err, null, err);
-        assert(obj, 'no obj');
-        assert(obj.user, 'no user');
-        assert(obj.user.email, "no email");
-        assert.equal(obj.user.email,
-          na.CREATE_USER_RESP.user.email,
-          'wrong user: ' + obj.user.email);
+        assert(obj.data.rates, "no rate");
+        assert.equal(obj.data.rates.AED,
+          na.GET_EX_RATES_RESP.data.rates.AED,
+          'wrong rate: ' + obj.data.rates.AED);
       });
     });
 
     it('should get payment methods', function() {
-      client.getPaymentMethods(function(err, pms) {
+      client.getPaymentMethods({}, function(err, pms) {
         assert.equal(err, null, err);
         assert(pms, 'no payment methods');
         assert.equal(pms.length,
-          na.GET_PAYMENT_METHODS_RESP.payment_methods.length,
+          na.GET_PAYMENT_METHODS_RESP.data.length,
           'wrong number of methods: ' + pms.length);
       });
     });
 
     it('should get payment method', function() {
-      client.getPaymentMethod(na.GET_PAYMENT_METHOD_RESP.payment_method.id,
+      client.getPaymentMethod(na.GET_PAYMENT_METHOD_RESP.data.id,
         function(err, pm) {
         assert.equal(err, null, err);
         assert(pm, 'no payment method');
-        assert.equal(pm.id, na.GET_PAYMENT_METHOD_RESP.payment_method.id,
+        assert.equal(pm.id, na.GET_PAYMENT_METHOD_RESP.data.id,
           'wrong payment method');
       });
     });

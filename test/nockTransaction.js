@@ -4,9 +4,9 @@
 var nock     = require('nock');
 
 var EXPIRE_REGEX = /\?expire=[0-9]+/g;
-var TEST_BASE_URI = 'http://mockapi.coinbase.com/v1/';
+var TEST_BASE_URI = 'http://mockapi.coinbase.com/v2/';
 var ACCOUNT_1 = {
-  "id": "1234",
+  "id": "A1234",
   "balance": {
     "amount":"0.07",
     "currency": "BTC"
@@ -16,6 +16,7 @@ var ACCOUNT_1 = {
 var TXN_1 = {
   "id": "T1234",
   "created_at": "2012-08-01T02:34:43-07:00",
+  "type": "request",
   "amount": {
     "amount": "-1.10000000",
     "currency": "BTC"
@@ -34,20 +35,15 @@ var TXN_1 = {
   }
 };
 
-var SUCCESS_RESP = {
-  "success": true
-};
-
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
-  .put('/transactions/' + TXN_1.id + '/resend_request')
+  .post('/accounts/' + ACCOUNT_1.id + '/transactions/' + TXN_1.id + '/resend')
   .reply(200, function(uri, requestBody) {
-    return SUCCESS_RESP;
+    return null;
   });
 
 var COMPLETE_RESP = {
-  "success": true,
-  "transaction": {
+  "data": {
     "id": "503c46a4f8182b10650000ad",
     "created_at": "2012-08-27T21:18:44-07:00",
     "notes": null,
@@ -71,21 +67,20 @@ var COMPLETE_RESP = {
 };
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
-  .put('/transactions/' + TXN_1.id + '/complete_request')
+  .post('/accounts/' + ACCOUNT_1.id + '/transactions/' + TXN_1.id + '/complete')
   .reply(200, function(uri, requestBody) {
     return COMPLETE_RESP;
   });
 
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
-  .put('/transactions/' + TXN_1.id + '/cancel_request')
+  .delete('/accounts/' + ACCOUNT_1.id + '/transactions/' + TXN_1.id)
   .reply(200, function(uri, requestBody) {
-    return SUCCESS_RESP;
+    return null;
   });
 
 module.exports.TXN_1             = TXN_1            ;
 module.exports.TEST_BASE_URI     = TEST_BASE_URI    ;
 module.exports.ACCOUNT_1         = ACCOUNT_1        ;
-module.exports.SUCCESS_RESP      = SUCCESS_RESP     ;
 module.exports.COMPLETE_RESP     = COMPLETE_RESP    ;
 

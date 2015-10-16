@@ -7,28 +7,29 @@
 var assert   = require("assert");
 var coinbase = require('..');
 var Client   = coinbase.Client;
-var Transfer = coinbase.model.Transfer;
+var Account  = coinbase.model.Account;
+var Buy      = coinbase.model.Buy;
 var na       = require('./nockTransfer.js');
 
-describe('model.Transfer', function(){
+describe('model.Buy', function(){
 
-  describe('transfer constructor', function(){
+  describe('buy constructor', function(){
 
     it('should return transfer', function(){
-      var transfer = new Transfer(
-        {}, 
+      var transfer = new Buy(
+        {},
         {'id': '999'},
         {'id': '999'}
         );
       assert(transfer);
     });
     it('should require constructor new call', function(){
-      var t1 = Transfer(
-        {}, 
+      var t1 = Buy(
+        {},
         {'id': '999'},
         {'id': '999'}
         );
-      assert(t1 instanceof Transfer);
+      assert(t1 instanceof Buy);
     });
     it('should require constructor args', function(){
       try {
@@ -42,10 +43,11 @@ describe('model.Transfer', function(){
 
   });
 
-  describe('transfer methods', function() {
+  describe('buy methods', function() {
 
     var client = new Client({'apiKey': 'mykey', 'apiSecret': 'mysecret', 'baseApiUri': na.TEST_BASE_URI});
-    var xfer = new Transfer(client, na.XFER_1, {'id': 'A9876543210'});
+    var account = new Account(client, na.ACCT);
+    var xfer = new Buy(client, na.XFER_1, account);
     it('should commit transfer', function() {
       xfer.commit(function(err, update) {
         assert.equal(err, null, err);

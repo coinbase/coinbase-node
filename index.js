@@ -1,22 +1,31 @@
 var Account       = require('./lib/model/Account.js'),
-    Button        = require('./lib/model/Button.js'),
+    Address       = require('./lib/model/Address.js'),
+    Buy           = require('./lib/model/Buy.js'),
+    Checkout      = require('./lib/model/Checkout.js'),
     Client        = require('./lib/Client.js'),
-    Contact       = require('./lib/model/Contact.js'),
+    Deposit       = require('./lib/model/Deposit.js'),
+    Merchant      = require('./lib/model/Merchant.js'),
     Order         = require('./lib/model/Order.js'),
     PaymentMethod = require('./lib/model/PaymentMethod.js'),
+    Sell          = require('./lib/model/Sell.js'),
     Transaction   = require('./lib/model/Transaction.js'),
     Transfer      = require('./lib/model/Transfer.js'),
-    User          = require('./lib/model/User.js');
+    User          = require('./lib/model/User.js'),
+    Withdrawal    = require('./lib/model/Withdrawal.js');
 
 var model = {
     'Account'       : Account,
-    'Button'        : Button,
-    'Contact'       : Contact,
+    'Address'       : Address,
+    'Buy'           : Buy,
+    'Checkout'      : Checkout,
+    'Deposit'       : Deposit,
+    'Merchant'      : Merchant,
     'Order'         : Order,
     'PaymentMethod' : PaymentMethod,
+    'Sell'          : Sell,
     'Transaction'   : Transaction,
-    'Transfer'      : Transfer,
-    'User'          : User
+    'User'          : User,
+    'Withdrawal'    : Withdrawal
 };
 
 module.exports = {

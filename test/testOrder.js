@@ -39,17 +39,17 @@ describe('model.Order', function(){
   describe('order methods', function() {
 
     var client = new Client({'apiKey': 'mykey', 'apiSecret': 'mysecret', 'baseApiUri': na.TEST_BASE_URI});
-    var order = new Order(client, na.REFUND_RESP.order);
+    var order = new Order(client, na.REFUND_RESP.data);
     it('should refund order', function() {
       var args = {};
       order.refund(args, function(err, order) {
         assert.equal(err, null, err);
         assert(order, 'no refund');
         assert(order.id);
-        assert.equal(order.id, na.REFUND_RESP.order.id, 'wrong order');
+        assert.equal(order.id, na.REFUND_RESP.data.id, 'wrong order');
         assert(order.refund_transaction.id);
-        assert.equal(order.refund_transaction.id, 
-          na.REFUND_RESP.order.refund_transaction.id, 'no refund txn');
+        assert.equal(order.refund_transaction.id,
+          na.REFUND_RESP.data.refund_transaction.id, 'no refund txn');
       });
     });
   });
