@@ -139,10 +139,10 @@ describe('Client', function() {
       client.getSpotPrice(null, function(err, obj) {
         assert.equal(err, null, err);
         assert(obj, 'no price');
-        assert(obj.amount, "no amount");
-        assert.equal(obj.amount,
-          na.GET_SPOT_RESP.amount,
-          'wrong amount: ' + obj.amount);
+        assert(obj.data.amount, "no amount");
+        assert.equal(obj.data.amount,
+          na.GET_SPOT_RESP.data.amount,
+          'wrong amount: ' + obj.data.amount);
       });
 
     });

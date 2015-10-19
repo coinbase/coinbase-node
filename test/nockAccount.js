@@ -7,6 +7,7 @@ var nock     = require('nock');
 var TEST_BASE_URI = 'http://mockapi.coinbase.com/v2/';
 var ACCOUNT_1 = {
   "id": "1234",
+  "resource": "account",
   "balance": {
     "amount":"0.07",
     "currency": "BTC"
@@ -14,6 +15,7 @@ var ACCOUNT_1 = {
 };
 var ACCOUNT_2 = {
   "id": "5678",
+  "resource": "account",
   "balance": {
     "amount":"1.08",
     "currency": "USD"
@@ -21,6 +23,7 @@ var ACCOUNT_2 = {
 };
 var ACCOUNT_3 = { //gets deleted
   "id": "1000",
+  "resource": "account",
   "balance": {
     "amount":"2.08",
     "currency": "USD"
@@ -44,6 +47,7 @@ nock(TEST_BASE_URI)
 var MODIFY_ACCOUNT_RESP = {
   "data": {
     "id": "53752d3e46cd93c93c00000c",
+    "resource": "account",
     "name": "Satoshi Wallet",
     "active": true,
     "created_at": "2014-05-15T14:10:22-07:00",
@@ -70,6 +74,7 @@ var GET_ADDRESSES_RESP =
     "data": [
       {
           "id": "123",
+          "resource": "address",
           "address": "moLxGrqWNcnGq4A8Caq8EGP4n9GUGWanj4",
           "callback_url": null,
           "label": "My Label",
@@ -77,6 +82,7 @@ var GET_ADDRESSES_RESP =
       },
       {
           "id": "1234",
+          "resource": "address",
           "address": "mwigfecvyG4MZjb6R5jMbmNcs7TkzhUaCj",
           "callback_url": null,
           "label": null,
@@ -84,6 +90,7 @@ var GET_ADDRESSES_RESP =
       },
       {
           "id": "12344",
+          "resource": "address",
           "address": "2N139JFn7dwX1ySkdWYDXCV51oyBCuV8zYw",
           "callback_url": null,
           "label": null,
@@ -104,6 +111,7 @@ nock(TEST_BASE_URI)
 var GET_ADDRESS_RESP = {
   "data": {
     "id": "503c46a4f8182b10650000ad",
+    "resource": "address",
     "address": "moLxGrqWNcnGq4A8Caq8EGP4n9GUGWanj4",
     "callback_url": null,
     "label": "My Label",
@@ -119,6 +127,7 @@ nock(TEST_BASE_URI)
 var CREATE_ADDRESS_RESP = {
   "data": {
     "id"           : "hfiehr",
+    "resource": "address",
     "address"      : "muVu2JZo8PbewBHRp6bpqFvVD87qvqEHWA",
     "callback_url" : "http: //www.example.com/callback",
     "label"        : "Dalmation donations"
@@ -139,6 +148,7 @@ var GET_TRANSACTIONS_RESP ={
   "data": [
   {
   "id": "5018f833f8182b129c00002f",
+  "resource": "transaction",
   "created_at": "2012-08-01T02:34:43-07:00",
   "amount": {
   "amount": "-1.10000000",
@@ -159,6 +169,7 @@ var GET_TRANSACTIONS_RESP ={
   },
   {
   "id": "5018f833f8182b129c00002e",
+  "resource": "transaction",
   "created_at": "2012-08-01T02:36:43-07:00",
   "hsh": "9d6a7d1112c3db9de5315b421a5153d71413f5f752aff75bf504b77df4e646a3",
   "amount": {
@@ -187,6 +198,7 @@ nock(TEST_BASE_URI)
 var GET_TRANSACTION_RESP = {
     "data": {
       "id": "1234",
+      "resource": "transaction",
       "created_at": "2012-08-01T02:34:43-07:00",
       "amount": {
         "amount": "-1.10000000",
@@ -217,6 +229,7 @@ nock(TEST_BASE_URI)
 var TRANSFER_MONEY_RESP = {
   "data": {
   "id": "5480cc82dddd20de7b000033",
+  "resource": "transaction",
   "created_at": "2014-12-04T13:05:06-08:00",
   "hsh": null,
   "amount": {
@@ -256,6 +269,7 @@ nock(TEST_BASE_URI)
 var SEND_MONEY_RESP = {
   "data": {
   "id": "501a1791f8182b2071000087",
+  "resource": "transaction",
   "created_at": "2012-08-01T23:00:49-07:00",
   "hsh": "9d6a7d1112c3db9de5315b421a5153d71413f5f752aff75bf504b77df4e646a3",
   "notes": "Sample transaction for you!",
@@ -294,6 +308,7 @@ nock(TEST_BASE_URI)
 var REQUEST_MONEY_RESP = {
   "data": {
   "id": "501a3554f8182b2754000003",
+  "resource": "transaction",
   "created_at": "2012-08-02T01:07:48-07:00",
   "hsh": null,
   "notes": "Sample request for you!",
@@ -330,6 +345,7 @@ var GET_BUYS_RESP = {
   "data": [
   {
   "id": "544047e346cd9333bd000066",
+  "resource": "buy",
   "type": "Buy",
   "code": "QPCUCZHR",
   "created_at": "2013-02-27T23:28:18-08:00",
@@ -373,6 +389,7 @@ nock(TEST_BASE_URI)
 var BUY_RESP = {
   "data": {
   "id": "5456c2cb46cd93593d00000b",
+  "resource": "buy",
   "type": "Buy",
   "code": "5456c2cb46cd93593d00000b",
   "created_at": "2013-01-28T16:08:58-08:00",

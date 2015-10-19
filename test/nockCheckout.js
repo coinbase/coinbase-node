@@ -17,6 +17,7 @@ var ACCOUNT_1 = {
 var GET_CHECKOUT_RESP = {
   "data": {
     "id": "93865b9cae83706ae59220c013bc0afd",
+    "resource": "checkout",
     "type": "buy_now",
     "subscription": false,
     "style": "custom_large",
@@ -43,6 +44,7 @@ var GET_ORDERS_RESP = {
   "data": [
     {
         "id": "7RTTRDVP",
+        "resource": "order",
         "created_at": "2013-11-09T22:47:10-08:00",
         "status": "new",
         "total_btc": {
@@ -85,6 +87,7 @@ nock(TEST_BASE_URI)
 var CREATE_ORDER_RESP = {
   "data": {
   "id": "7RTTRDVP",
+  "resource": "order",
   "created_at": "2013-11-09T22:47:10-08:00",
   "status": "new",
   "total_btc": {

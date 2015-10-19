@@ -9,8 +9,8 @@ var ACCOUNTS_ID_1 = '54a710dd25dc9a311800003f';
 var ACCOUNTS_ID_2 = '54a710dd25dc9a311800003g';
 var GET_ACCOUNTS_RESP = {
   'data': [
-    {'id': ACCOUNTS_ID_1},
-    {'id': ACCOUNTS_ID_2}
+    {'id': ACCOUNTS_ID_1, 'resource': 'account'},
+    {'id': ACCOUNTS_ID_2, 'resource': 'account'}
    ]
 };
 
@@ -22,6 +22,7 @@ var scope1 = nock(TEST_BASE_URI)
 var GET_ACCOUNT_RESP = {
   "data": {
   "id": ACCOUNTS_ID_1,
+  "resource": "account",
   "name": "My Wallet",
   "balance": {
   "amount": "50.00000000",
@@ -48,6 +49,7 @@ var NEW_ACCOUNT_NAME_1 = 'my new wallet 1';
 var CREATE_ACCOUNT_RESP = {
   "data": {
     "id": "537cfb1146cd93b85d00001e",
+    "resource": "account",
     "name": NEW_ACCOUNT_NAME_1,
     "active": true,
     "created_at": "2014-05-21T12:14:25-07:00",
@@ -73,6 +75,7 @@ nock(TEST_BASE_URI)
 var GET_CURRENT_USER_RESP = {
   "data": {
     "id": "512db383f8182bd24d000001",
+    "resource": "user",
     "name": "User One",
     "email": "user1@example.com",
     "time_zone": "Pacific Time (US & Canada)",
@@ -136,8 +139,10 @@ nock(TEST_BASE_URI)
   });
 
 var GET_SPOT_RESP = {
-  "amount": "239.16",
-  "currency": "USD"
+  "data": {
+    "amount": "239.16",
+    "currency": "USD"
+  }
 };
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
@@ -207,12 +212,14 @@ var GET_PAYMENT_METHODS_RESP = {
   "data": [
     {
       "id": "530eb5b217cb34e07a000011",
+      "resource": "payment_method",
       "name": "US Bank ****4567",
       "can_buy": true,
       "can_sell": true
     },
     {
       "id": "530eb7e817cb34e07a00001a",
+      "resource": "payment_method",
       "name": "VISA card 1111",
       "can_buy": false,
       "can_sell": false
@@ -229,6 +236,7 @@ nock(TEST_BASE_URI)
 var GET_PAYMENT_METHOD_RESP = {
   "data": {
     "id": "530eb5b217cb34e07a000011",
+    "resource": "payment_method",
     "name": "US Bank ****4567",
     "can_buy": true,
     "can_sell": true

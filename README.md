@@ -139,6 +139,22 @@ account.getTransactions(null, function(err, txns) {
 });
 ```
 
+**Using pagination**
+
+```javascript
+account.getTransactions(null, function(err, txns, pagination) {
+  txns.forEach(function(txn) {
+    console.log('my txn: ' + txn.id);
+  });
+  console.log(pagination.next_uri);
+  account.getTransactions(pagination, function(err, txns) {
+    txns.forEach(function(txn) {
+      console.log('my txn: ' + txn.id);
+    });
+  });
+});
+```
+
 **Checking bitcoin prices**
 
 ```javascript
