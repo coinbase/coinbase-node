@@ -16,7 +16,7 @@ describe('model.Transaction', function(){
 
     it('should return transaction', function(){
       var transaction = new Transaction(
-        {}, 
+        {},
         {'id': '999'},
         {'id': '999'}
         );
@@ -25,7 +25,7 @@ describe('model.Transaction', function(){
 
     it('should require constructor new call', function(){
       var t1 = Transaction(
-        {}, 
+        {},
         {'id': '999'},
         {'id': '999'}
         );
@@ -49,8 +49,6 @@ describe('model.Transaction', function(){
     it('should resend transaction', function() {
       txn.resend(function(err, res) {
         assert.equal(err, null, err);
-        assert(res, 'no result');
-        assert.equal(res.success, true, 'not resent');
       });
     });
 
@@ -59,7 +57,7 @@ describe('model.Transaction', function(){
         assert.equal(err, null, err);
         assert(txn, 'no txn');
         assert(txn.id, 'no txn id');
-        assert.equal(txn.id, na.COMPLETE_RESP.transaction.id,
+        assert.equal(txn.id, na.COMPLETE_RESP.data.id,
           'wrong txn id');
         assert.equal(txn.status, 'pending', 'wrong txn status');
       });
@@ -68,8 +66,6 @@ describe('model.Transaction', function(){
     it('should cancel transaction', function() {
       txn.cancel(function(err, res) {
         assert.equal(err, null, err);
-        assert(res, 'no result');
-        assert.equal(res.success, true, 'not deleted');
       });
     });
   });

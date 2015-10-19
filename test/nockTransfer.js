@@ -5,7 +5,7 @@ var nock     = require('nock');
 
 
 var EXPIRE_REGEX = /\?expire=[0-9]+/g;
-var TEST_BASE_URI = 'http://mockapi.coinbase.com/v1/';
+var TEST_BASE_URI = 'http://mockapi.coinbase.com/v2/';
 
 var XFER_1 = {
   "id": "9901234",
@@ -40,10 +40,13 @@ var XFER_1 = {
   "description": "Paid for with $13.84 from Test xxxxx3111."
 };
 
+var ACCT = {
+  "id": "544955d2629122efb000000f"
+};
+
 
 var COMMIT_RESP = {
-  "success": true,
-  "transfer": {
+  "data": {
     "id": "5474d23a629122e172000238",
     "created_at": "2014-11-25T11:03:22-08:00",
     "fees": {
@@ -89,12 +92,13 @@ var COMMIT_RESP = {
 
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
-  .post('/transfers/' + XFER_1.id + '/commit')
+  .post('/accounts/544955d2629122efb000000f/buys/' + XFER_1.id + '/commit')
   .reply(200, function(uri, requestBody) {
     return COMMIT_RESP;
   });
 
-module.exports.XFER_1            = XFER_1            ;
-module.exports.TEST_BASE_URI     = TEST_BASE_URI    ;
-module.exports.COMMIT_RESP       = COMMIT_RESP    ;
+module.exports.XFER_1            = XFER_1       ;
+module.exports.ACCT              = ACCT         ;
+module.exports.TEST_BASE_URI     = TEST_BASE_URI;
+module.exports.COMMIT_RESP       = COMMIT_RESP  ;
 

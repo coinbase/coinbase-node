@@ -5,10 +5,10 @@ var nock = require('nock');
 
 
 var EXPIRE_REGEX = /\?expire=[0-9]+/g;
-var TEST_BASE_URI = 'http://mockapi.coinbase.com/v1/';
+var TEST_BASE_URI = 'http://mockapi.coinbase.com/v2/';
 
 var REFUND_RESP = {
-  "order": {
+  "data": {
     "id": "YYZQ6RN4",
     "created_at": "2014-06-17T16:03:53-07:00",
     "status": "completed",
@@ -47,7 +47,7 @@ var REFUND_RESP = {
   }
 };
 
-var refund_uri = '/orders/' + REFUND_RESP.order.id + '/refund';
+var refund_uri = '/orders/' + REFUND_RESP.data.id + '/refund';
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .post(refund_uri)
