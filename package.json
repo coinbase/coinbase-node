@@ -40,6 +40,6 @@
     "url": "git://github.com/coinbase/coinbase-node.git"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha -R spec",
+    "test": "node_modules/.bin/mocha -R spec"
   }
 }
