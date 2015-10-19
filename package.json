@@ -1,6 +1,6 @@
 {
   "name": "coinbase",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "author": "Coinbase",
   "bugs": "https://github.com/coinbase/coinbase-node/issues",
   "contributors": [
@@ -41,6 +41,5 @@
   },
   "scripts": {
     "test": "node_modules/.bin/mocha -R spec",
-    "docs": "node_modules/.bin/docco lib/Client.js lib/model/Account.js lib/model/Button.js lib/model/Transaction.js lib/model/Transfer.js lib/model/Order.js lib/model/User.js lib/model/PaymentMethod.js lib/model/Contact.js lib/errorTypes.js"
   }
 }
