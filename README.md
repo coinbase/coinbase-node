@@ -165,7 +165,7 @@ client.getBuyPrice({'currency': 'USD'}, function(err, obj) {
 
 **Verifying merchant callback authenticity**
 ```javascript
-if (client.verifyCallback(req.raw_body, req.headers['X-Signature'])) {
+if (client.verifyCallback(req.raw_body, req.headers['CB-SIGNATURE'])) {
   // Process callback
 }
 ```
