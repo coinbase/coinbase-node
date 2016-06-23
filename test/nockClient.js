@@ -147,7 +147,8 @@ var GET_SPOT_RESP = {
 };
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
- .get('/prices/spot')
+ .get('/prices/BTC-USD/spot')
+ .thrice()
  .reply(200, function(uri, body) {
    return GET_SPOT_RESP;
  });
