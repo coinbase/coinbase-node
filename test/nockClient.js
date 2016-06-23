@@ -119,7 +119,8 @@ var GET_BUY_PRICE_RESP = {
 };
 nock(TEST_BASE_URI)
   .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
-  .get('/prices/buy')
+  .get('/prices/BTC-USD/buy')
+  .thrice()
   .reply(200, function(uri, body) {
     return GET_BUY_PRICE_RESP;
   });

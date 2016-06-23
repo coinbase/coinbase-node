@@ -112,15 +112,36 @@ describe('Client', function() {
       });
     });
 
-    it('should get buy price', function() {
+    it('should get buy price (undefined)', function() {
       client.getBuyPrice({}, function(err, obj) {
         assert.equal(err, null, err);
         assert(obj, 'no price');
-        assert(obj.data.amount, "no amount");
+        assert(obj.data.amount, 'no amount');
         assert.equal(obj.data.amount,
           na.GET_BUY_PRICE_RESP.data.amount,
           'wrong amount: ' + obj.data.amount);
+      });
+    });
 
+    it('should get buy price (USD)', function() {
+      client.getBuyPrice({currency: 'USD'}, function(err, obj) {
+        assert.equal(err, null, err);
+        assert(obj, 'no price');
+        assert(obj.data.amount, 'no amount');
+        assert.equal(obj.data.amount,
+          na.GET_BUY_PRICE_RESP.data.amount,
+          'wrong amount: ' + obj.data.amount);
+      });
+    });
+
+    it('should get buy price (BTC-USD)', function() {
+      client.getBuyPrice({currency: 'BTC-USD'}, function(err, obj) {
+        assert.equal(err, null, err);
+        assert(obj, 'no price');
+        assert(obj.data.amount, 'no amount');
+        assert.equal(obj.data.amount,
+          na.GET_BUY_PRICE_RESP.data.amount,
+          'wrong amount: ' + obj.data.amount);
       });
     });
 
