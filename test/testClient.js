@@ -145,13 +145,35 @@ describe('Client', function() {
       });
     });
 
-    it('should sell price', function() {
+    it('should get sell price (undefined)', function() {
       client.getSellPrice({}, function(err, obj) {
         assert.equal(err, null, err);
         assert(obj, 'no price');
-        assert(obj.data.amount, "no amount");
+        assert(obj.data.amount, 'no amount');
         assert.equal(obj.data.amount,
-          na.GET_SELL_PRICE_RESP.data.amount,
+          na.GET_BUY_PRICE_RESP.data.amount,
+          'wrong amount: ' + obj.data.amount);
+      });
+    });
+
+    it('should get sell price (USD)', function() {
+      client.getSellPrice({currency: 'USD'}, function(err, obj) {
+        assert.equal(err, null, err);
+        assert(obj, 'no price');
+        assert(obj.data.amount, 'no amount');
+        assert.equal(obj.data.amount,
+          na.GET_BUY_PRICE_RESP.data.amount,
+          'wrong amount: ' + obj.data.amount);
+      });
+    });
+
+    it('should get sell price (BTC-USD)', function() {
+      client.getSellPrice({currency: 'BTC-USD'}, function(err, obj) {
+        assert.equal(err, null, err);
+        assert(obj, 'no price');
+        assert(obj.data.amount, 'no amount');
+        assert.equal(obj.data.amount,
+          na.GET_BUY_PRICE_RESP.data.amount,
           'wrong amount: ' + obj.data.amount);
       });
     });
@@ -165,7 +187,6 @@ describe('Client', function() {
           na.GET_SPOT_RESP.data.amount,
           'wrong amount: ' + obj.data.amount);
       });
-
     });
 
     it('should get supported currencies', function() {

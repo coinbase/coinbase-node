@@ -131,10 +131,10 @@ var GET_SELL_PRICE_RESP = {
     "currency": "usd"
   }
 };
-
 nock(TEST_BASE_URI)
   .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
-  .get('/prices/sell')
+  .get('/prices/BTC-USD/sell')
+  .thrice()
   .reply(200, function(uri, body) {
     return GET_SELL_PRICE_RESP;
   });
