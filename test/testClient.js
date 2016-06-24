@@ -135,7 +135,7 @@ describe('Client', function() {
     });
 
     it('should get buy price (BTC-USD)', function() {
-      client.getBuyPrice({currency: 'BTC-USD'}, function(err, obj) {
+      client.getBuyPrice({currencyPair: 'BTC-USD'}, function(err, obj) {
         assert.equal(err, null, err);
         assert(obj, 'no price');
         assert(obj.data.amount, 'no amount');
@@ -168,7 +168,7 @@ describe('Client', function() {
     });
 
     it('should get sell price (BTC-USD)', function() {
-      client.getSellPrice({currency: 'BTC-USD'}, function(err, obj) {
+      client.getSellPrice({currencyPair: 'BTC-USD'}, function(err, obj) {
         assert.equal(err, null, err);
         assert(obj, 'no price');
         assert(obj.data.amount, 'no amount');
@@ -201,7 +201,7 @@ describe('Client', function() {
     });
 
     it('should get spot price (BTC-USD)', function() {
-      client.getSpotPrice({currency: 'BTC-USD'}, function(err, obj) {
+      client.getSpotPrice({currencyPair: 'BTC-USD'}, function(err, obj) {
         assert.equal(err, null, err);
         assert(obj, 'no price');
         assert(obj.data.amount, 'no amount');
