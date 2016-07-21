@@ -119,7 +119,8 @@ var GET_BUY_PRICE_RESP = {
 };
 nock(TEST_BASE_URI)
   .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
-  .get('/prices/buy')
+  .get('/prices/BTC-USD/buy')
+  .thrice()
   .reply(200, function(uri, body) {
     return GET_BUY_PRICE_RESP;
   });
@@ -130,10 +131,10 @@ var GET_SELL_PRICE_RESP = {
     "currency": "usd"
   }
 };
-
 nock(TEST_BASE_URI)
   .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
-  .get('/prices/sell')
+  .get('/prices/BTC-USD/sell')
+  .thrice()
   .reply(200, function(uri, body) {
     return GET_SELL_PRICE_RESP;
   });
@@ -146,7 +147,8 @@ var GET_SPOT_RESP = {
 };
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
- .get('/prices/spot')
+ .get('/prices/BTC-USD/spot')
+ .thrice()
  .reply(200, function(uri, body) {
    return GET_SPOT_RESP;
  });

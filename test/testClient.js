@@ -112,39 +112,103 @@ describe('Client', function() {
       });
     });
 
-    it('should get buy price', function() {
+    it('should get buy price (undefined)', function() {
       client.getBuyPrice({}, function(err, obj) {
         assert.equal(err, null, err);
         assert(obj, 'no price');
-        assert(obj.data.amount, "no amount");
+        assert(obj.data.amount, 'no amount');
         assert.equal(obj.data.amount,
           na.GET_BUY_PRICE_RESP.data.amount,
           'wrong amount: ' + obj.data.amount);
-
       });
     });
 
-    it('should sell price', function() {
-      client.getSellPrice({}, function(err, obj) {
+    it('should get buy price (USD)', function() {
+      client.getBuyPrice({currency: 'USD'}, function(err, obj) {
         assert.equal(err, null, err);
         assert(obj, 'no price');
-        assert(obj.data.amount, "no amount");
+        assert(obj.data.amount, 'no amount');
         assert.equal(obj.data.amount,
-          na.GET_SELL_PRICE_RESP.data.amount,
+          na.GET_BUY_PRICE_RESP.data.amount,
           'wrong amount: ' + obj.data.amount);
       });
     });
 
-    it('should spot price', function() {
-      client.getSpotPrice(null, function(err, obj) {
+    it('should get buy price (BTC-USD)', function() {
+      client.getBuyPrice({currencyPair: 'BTC-USD'}, function(err, obj) {
         assert.equal(err, null, err);
         assert(obj, 'no price');
-        assert(obj.data.amount, "no amount");
+        assert(obj.data.amount, 'no amount');
+        assert.equal(obj.data.amount,
+          na.GET_BUY_PRICE_RESP.data.amount,
+          'wrong amount: ' + obj.data.amount);
+      });
+    });
+
+    it('should get sell price (undefined)', function() {
+      client.getSellPrice({}, function(err, obj) {
+        assert.equal(err, null, err);
+        assert(obj, 'no price');
+        assert(obj.data.amount, 'no amount');
+        assert.equal(obj.data.amount,
+          na.GET_BUY_PRICE_RESP.data.amount,
+          'wrong amount: ' + obj.data.amount);
+      });
+    });
+
+    it('should get sell price (USD)', function() {
+      client.getSellPrice({currency: 'USD'}, function(err, obj) {
+        assert.equal(err, null, err);
+        assert(obj, 'no price');
+        assert(obj.data.amount, 'no amount');
+        assert.equal(obj.data.amount,
+          na.GET_BUY_PRICE_RESP.data.amount,
+          'wrong amount: ' + obj.data.amount);
+      });
+    });
+
+    it('should get sell price (BTC-USD)', function() {
+      client.getSellPrice({currencyPair: 'BTC-USD'}, function(err, obj) {
+        assert.equal(err, null, err);
+        assert(obj, 'no price');
+        assert(obj.data.amount, 'no amount');
+        assert.equal(obj.data.amount,
+          na.GET_BUY_PRICE_RESP.data.amount,
+          'wrong amount: ' + obj.data.amount);
+      });
+    });
+
+    it('should get spot price (undefined)', function() {
+      client.getSpotPrice({}, function(err, obj) {
+        assert.equal(err, null, err);
+        assert(obj, 'no price');
+        assert(obj.data.amount, 'no amount');
         assert.equal(obj.data.amount,
           na.GET_SPOT_RESP.data.amount,
           'wrong amount: ' + obj.data.amount);
       });
+    });
 
+    it('should get spot price (USD)', function() {
+      client.getSpotPrice({currency: 'USD'}, function(err, obj) {
+        assert.equal(err, null, err);
+        assert(obj, 'no price');
+        assert(obj.data.amount, 'no amount');
+        assert.equal(obj.data.amount,
+          na.GET_SPOT_RESP.data.amount,
+          'wrong amount: ' + obj.data.amount);
+      });
+    });
+
+    it('should get spot price (BTC-USD)', function() {
+      client.getSpotPrice({currencyPair: 'BTC-USD'}, function(err, obj) {
+        assert.equal(err, null, err);
+        assert(obj, 'no price');
+        assert(obj.data.amount, 'no amount');
+        assert.equal(obj.data.amount,
+          na.GET_SPOT_RESP.data.amount,
+          'wrong amount: ' + obj.data.amount);
+      });
     });
 
     it('should get supported currencies', function() {

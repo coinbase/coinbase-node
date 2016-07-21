@@ -55,7 +55,7 @@ To use this library with Coinbase Sandbox, you need to initialize the library wi
 ```javascript
 var Client = require('coinbase').Client;
 var client = new Client({
-  < api keys or access tokens here>
+  <api keys or access tokens here>
   'baseApiUri': 'https://api.sandbox.coinbase.com/v2/',
   'tokenUri': 'https://api.sandbox.coinbase.com/oauth/token'
 });
@@ -158,7 +158,7 @@ account.getTransactions(null, function(err, txns, pagination) {
 **Checking bitcoin prices**
 
 ```javascript
-client.getBuyPrice({'currency': 'USD'}, function(err, obj) {
+client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, obj) {
   console.log('total amount: ' + obj.data.amount);
 });
 ```
@@ -175,7 +175,7 @@ if (client.verifyCallback(req.raw_body, req.headers['CB-SIGNATURE'])) {
 Errors are thrown for invalid arguments but are otherwise returned as the
 first argument to callback functions using [http-errors](https://github.com/jshttp/http-errors) module.
 
-Errors contain `name`, `status`, and `message` fields for error handling. You can find 
+Errors contain `name`, `status`, and `message` fields for error handling. You can find
 more information about error types [here](https://developers.coinbase.com/api/v2#errors)
 
 ## Testing / Contributing
