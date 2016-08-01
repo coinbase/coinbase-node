@@ -48,19 +48,6 @@ var Client = require('coinbase').Client;
 var client = new Client({'accessToken': accessToken, 'refreshToken': refreshToken});
 ```
 
-## Coinbase Sandbox
-
-To use this library with Coinbase Sandbox, you need to initialize the library with following params:
-
-```javascript
-var Client = require('coinbase').Client;
-var client = new Client({
-  <api keys or access tokens here>
-  'baseApiUri': 'https://api.sandbox.coinbase.com/v2/',
-  'tokenUri': 'https://api.sandbox.coinbase.com/oauth/token'
-});
-```
-
 ## Making API Calls
 
 With a `client instance`, you can now make API calls. We've included some examples below, but in general the library has Javascript prototypes for each of the objects described in our [REST API documentation](https://developers.coinbase.com/api/v2).  These classes each have methods for making the relevant API calls; for instance, ``coinbase.model.Transaction.complete`` maps to the [complete bitcoin request](https://developers.coinbase.com/api/v2#complete-request-money) API endpoint. The comments of each method in the code references the endpoint it implements. Each API method returns an ``object`` representing the JSON response from the API.
