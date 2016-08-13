@@ -180,6 +180,13 @@ Tests are run via [mocha](http://mochajs.org) and [nock](https://github.com/pgte
 
 `npm test`
 
+You should also run security scan on all the packages.
+
+```bash
+npm install -g nsp
+nsp check --output summary
+```
+
 You can also run the tests against various node environments using the Dockerfile.example file.
 
 1. `cp Dockerfile.example Dockerfile`
