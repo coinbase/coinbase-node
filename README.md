@@ -180,7 +180,7 @@ Tests are run via [mocha](http://mochajs.org) and [nock](https://github.com/pgte
 
 `npm test`
 
-You should also run security scan on all the packages.
+Please also scan the packages for known vulnerabilities.
 
 ```bash
 npm install -g nsp
