@@ -41,7 +41,7 @@ var client = new Client({'apiKey': mykey, 'apiSecret': mysecret});
 ## OAuth2
 
 If you're writing code that will act on behalf of another user, start by
-[creating a new OAuth 2 application](https://coinbase.com/oauth/applications). You will need to do some work to obtain OAuth credentials for your users; while outside the scope of this document, please refer to our [OAuth 2 tutorial](https://developers.coinbase.com/docs/wallet/coinbase-connect/integrating) and [documentation](https://developers.coinbase.com/docs/wallet/coinbase-connect/reference). Once you have these credentials, create a client:
+[creating a new OAuth 2 application](https://www.coinbase.com/oauth/applications/new). You will need to do some work to obtain OAuth credentials for your users; while outside the scope of this document, please refer to our [OAuth 2 tutorial](https://developers.coinbase.com/docs/wallet/coinbase-connect/integrating) and [documentation](https://developers.coinbase.com/docs/wallet/coinbase-connect/reference). Once you have these credentials, create a client:
 
 ```javascript
 var Client = require('coinbase').Client;
