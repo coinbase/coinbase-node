@@ -184,7 +184,7 @@ Please also scan the packages for known vulnerabilities.
 
 ```bash
 npm install -g nsp
-nsp check --output summary
+npm run nsp
 ```
 
 You can also run the tests against various node environments using the Dockerfile.example file.
