@@ -188,6 +188,32 @@ describe('model.Account', function(){
           "can not buy: " + JSON.stringify(transfer));
       });
     });
+
+    it('should return an error for `#buy` if paymentMethod is "payment_method"', function () {
+      const EXPECTED_ERROR_STR = "payment_method property must be 'paymentMethodss'";
+      var args = {
+        "qty": "100",
+        "payment_method": "abcdefghijklmnopqrstuvwxyz1234567890"
+      };
+      assert.throws(assertErr, Error, EXPECTED_ERROR_STR);
+
+      function assertErr () {
+        return btnAccount.buy(args, function () {});
+      }
+    });
+
+    it('should return an error for `#sell` if paymentMethod is "payment_method"', function () {
+      const EXPECTED_ERROR_STR = "payment_method property must be 'paymentMethodss'";
+      var args = {
+        "qty": "100",
+        "payment_method": "abcdefghijklmnopqrstuvwxyz1234567890"
+      };
+      assert.throws(assertErr, Error, EXPECTED_ERROR_STR);
+
+      function assertErr () {
+        return btnAccount.sell(args, function () {});
+      }
+    });
   });
 });
 
