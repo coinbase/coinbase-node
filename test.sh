@@ -1,0 +1,1 @@
+curl https://api.coinbase.com/v2/accounts -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer abd90df5f27a7b170cd775abf89d632b350b7c1c9d53e08b340cd9832ce52c2c' -d '{"name": "New wallet"}'

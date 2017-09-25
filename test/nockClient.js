@@ -118,6 +118,7 @@ var GET_BUY_PRICE_RESP = {
   }
 };
 nock(TEST_BASE_URI)
+  .persist()
   .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
   .get('/prices/BTC-USD/buy')
   .thrice()
@@ -132,6 +133,7 @@ var GET_SELL_PRICE_RESP = {
   }
 };
 nock(TEST_BASE_URI)
+  .persist()
   .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
   .get('/prices/BTC-USD/sell')
   .thrice()
@@ -146,6 +148,7 @@ var GET_SPOT_RESP = {
   }
 };
 nock(TEST_BASE_URI)
+  .persist()
   .filteringPath(EXPIRE_REGEX, '')
  .get('/prices/BTC-USD/spot')
  .thrice()
@@ -178,6 +181,7 @@ var GET_CURRENCIES_RESP = {
   ]
 };
 nock(TEST_BASE_URI)
+  .persist()
   .filteringPath(EXPIRE_REGEX, '')
  .get('/currencies')
  .reply(200, function(uri, body) {
@@ -250,6 +254,43 @@ nock(TEST_BASE_URI)
   .reply(200, function(uri, body) {
     return GET_PAYMENT_METHOD_RESP;
   });
+
+
+// Responses to unauthenticated requests start here
+var GET_RESP_WITHOUT_AUTH = {
+  "errors": [
+    {
+      "id": "invalid_token",
+      "message": "The access token is invalid"
+    }
+  ]
+};
+nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
+  .get('/accounts')
+  .reply(401, GET_RESP_WITHOUT_AUTH);
+
+nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
+  .get('/accounts/' + ACCOUNTS_ID_1)
+  .reply(401, function(uri, body) {
+    return GET_RESP_WITHOUT_AUTH;
+  });
+
+nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
+  .post('/accounts')
+  .reply(401, function(uri, body) {
+    return GET_RESP_WITHOUT_AUTH;
+  });
+
+nock(TEST_BASE_URI)
+  .filteringPath(EXPIRE_REGEX, '')
+  .get('/user')
+  .reply(401, function(uri, body) {
+    return GET_RESP_WITHOUT_AUTH;
+  });
+
 
 module.exports.ACCOUNTS_ID_1            = ACCOUNTS_ID_1           ;
 module.exports.ACCOUNTS_ID_2            = ACCOUNTS_ID_2           ;
