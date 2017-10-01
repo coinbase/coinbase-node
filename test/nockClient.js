@@ -208,9 +208,10 @@ var GET_EX_RATES_RESP = {
 };
 
 nock(TEST_BASE_URI)
+  .persist()
   .filteringPath(EXPIRE_REGEX, '')
- .get('/exchange-rates')
- .reply(200, function(uri, body) {
+  .get('/exchange-rates')
+  .reply(200, function(uri, body) {
    return GET_EX_RATES_RESP;
  });
 
@@ -257,6 +258,7 @@ nock(TEST_BASE_URI)
 
 
 // Responses to unauthenticated requests start here
+
 var GET_RESP_WITHOUT_AUTH = {
   "errors": [
     {
@@ -291,6 +293,20 @@ nock(TEST_BASE_URI)
     return GET_RESP_WITHOUT_AUTH;
   });
 
+nock(TEST_BASE_URI)
+ .filteringPath(EXPIRE_REGEX, '')
+ .get('/payment-methods')
+ .reply(401, function(uri, body) {
+   return GET_RESP_WITHOUT_AUTH;
+ });
+
+nock(TEST_BASE_URI)
+  .persist()
+  .filteringPath(EXPIRE_REGEX, '')
+  .get('/payment-methods/' + GET_PAYMENT_METHOD_RESP.data.id)
+  .reply(401, function(uri, body) {
+    return GET_RESP_WITHOUT_AUTH;
+  });
 
 module.exports.ACCOUNTS_ID_1            = ACCOUNTS_ID_1           ;
 module.exports.ACCOUNTS_ID_2            = ACCOUNTS_ID_2           ;
