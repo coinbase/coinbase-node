@@ -157,6 +157,21 @@ if (client.verifyCallback(req.raw_body, req.headers['CB-SIGNATURE'])) {
 }
 ```
 
+## Accessing Data Endpoints
+
+Data endpoints such as pricing, currencies and exchange rates do not require authentication. You must pass in a non-empty apiKey and apiSecret or accessToken in order to instantiate a Client and make these requests otherwise the Client will throw an error. However, if you only wish to use the open data endpoints, you can pass any value for these parameters to instantiate and use the Client. The following will work as a drop in snippet. See the documentation at https://developers.coinbase.com/api/v2#data-endpoints for more information on the data endpoints.
+
+**Checking bitcoin prices without an apiKey / apiSecret or accessToken**
+
+```javascript
+var coinbase = require('coinbase');
+var client   = new coinbase.Client({'apiKey': 'anyRandomWord', 'apiSecret': 'somethingElse'});
+
+client.getBuyPrice({'currencyPair': 'BTC-USD'}, function(err, obj) {
+  console.log('total amount: ' + obj.data.amount);
+});
+```
+
 ## Error Handling
 
 Errors are thrown for invalid arguments but are otherwise returned as the
