@@ -56,12 +56,17 @@ describe('model.Account', function(){
         assert.equal(err, null, err);
         assert(result);
       });
+      return btcAccount.setPrimary()
+        .then(function (result) {
+          assert(result[0]);
+        })
     });
 
     it('should delete account', function() {
       usdAccount1.delete(function(err, result) {
         assert.equal(err, null, err);
       });
+      return usdAccount1.delete();
     });
 
     it('should modify account', function() {
@@ -71,6 +76,14 @@ describe('model.Account', function(){
         assert(account);
         assert.equal(account.name, na.MODIFY_ACCOUNT_RESP.data.name, "can not modify account");
       });
+      return btcAccount.update(args)
+        .then(function (result) {
+          assert(result);
+          assert.equal(result.length, 1)
+          var account = result[0]
+          assert(account);
+          assert.equal(account.name, na.MODIFY_ACCOUNT_RESP.data.name, "can not modify account");
+        });
     });
 
     it('should get addresses', function() {
@@ -80,6 +93,12 @@ describe('model.Account', function(){
         assert.equal(result.length, na.GET_ADDRESSES_RESP.data.length,
           "can not get addresses: " + JSON.stringify(result));
       });
+      return btcAccount.getAddresses(null)
+        .then(function (result) {
+          assert(result[0]);
+          assert.equal(result[0].length, na.GET_ADDRESSES_RESP.data.length,
+            "can not get addresses: " + JSON.stringify(result[0]));
+        });
     });
 
     it('should get address', function() {
@@ -91,6 +110,14 @@ describe('model.Account', function(){
         assert.equal(result.label, na.GET_ADDRESS_RESP.data.label,
           "can not get address: " + JSON.stringify(result));
       });
+      return btcAccount.getAddress(na.GET_ADDRESS_RESP.data.address)
+        .then(function (result) {
+          assert(result[0]);
+          assert.equal(result[0].id, na.GET_ADDRESS_RESP.data.id,
+            "can not get address: " + JSON.stringify(result[0]));
+          assert.equal(result[0].label, na.GET_ADDRESS_RESP.data.label,
+            "can not get address: " + JSON.stringify(result[0]));
+        });
     });
 
     it('should create address', function() {
@@ -104,6 +131,12 @@ describe('model.Account', function(){
         assert.equal(result.label, na.CREATE_ADDRESS_RESP.data.label,
           "can not create address: " + JSON.stringify(result));
       });
+      return btcAccount.createAddress(args)
+        .then(function (result) {
+          assert(result[0]);
+          assert.equal(result[0].label, na.CREATE_ADDRESS_RESP.data.label,
+            "can not create address: " + JSON.stringify(result[0]));
+        });
     });
 
     it('should get transactions', function() {
@@ -114,6 +147,13 @@ describe('model.Account', function(){
           na.GET_TRANSACTIONS_RESP.data.length,
           "can not get transactions: " + JSON.stringify(result));
       });
+      return btcAccount.getTransactions(null)
+        .then(function (result) {
+          assert(result[0]);
+          assert.equal(result[0].length,
+            na.GET_TRANSACTIONS_RESP.data.length,
+            "can not get transactions: " + JSON.stringify(result[0]));
+        });
     });
 
     it('should get transaction', function() {
@@ -123,6 +163,12 @@ describe('model.Account', function(){
         assert.equal(txn.id, na.GET_TRANSACTION_RESP.data.id,
           "can not get txn: " + JSON.stringify(txn));
       });
+      return btcAccount.getTransaction('1234')
+        .then(function (result) {
+          assert(result[0]);
+          assert.equal(result[0].id, na.GET_TRANSACTION_RESP.data.id,
+            "can not get txn: " + JSON.stringify(result[0]));
+        });
     });
 
     it('should transfer money', function() {
@@ -137,6 +183,12 @@ describe('model.Account', function(){
         assert.equal(txn.id, na.TRANSFER_MONEY_RESP.data.id,
           "can not transfer money: " + JSON.stringify(txn));
       });
+      return btcAccount.transferMoney(args)
+        .then(function (result) {
+          assert(result[0]);
+          assert.equal(result[0].id, na.TRANSFER_MONEY_RESP.data.id,
+            "can not transfer money: " + JSON.stringify(result[0]));
+        });
     });
 
     it('should send money', function() {
@@ -151,6 +203,12 @@ describe('model.Account', function(){
         assert.equal(txn.id, na.SEND_MONEY_RESP.data.id,
           "can not send money: " + JSON.stringify(txn));
       });
+      return btcAccount.sendMoney(args)
+        .then(function (result) {
+          assert(result[0]);
+          assert.equal(result[0].id, na.SEND_MONEY_RESP.data.id,
+            "can not send money: " + JSON.stringify(result[0]));
+        });
     });
 
     it('should request money', function() {
@@ -165,6 +223,12 @@ describe('model.Account', function(){
         assert.equal(txn.id, na.REQUEST_MONEY_RESP.data.id,
           "can not request money: " + JSON.stringify(txn));
       });
+      return btcAccount.requestMoney(args)
+        .then(function (result) {
+          assert(result[0]);
+          assert.equal(result[0].id, na.REQUEST_MONEY_RESP.data.id,
+            "can not request money: " + JSON.stringify(result[0]));
+        });
     });
 
     it('should get transfers', function() {
@@ -175,6 +239,13 @@ describe('model.Account', function(){
           na.GET_BUYS_RESP.data.length,
           "can not get transfers: " + JSON.stringify(result));
       });
+      return btcAccount.getBuys(null)
+        .then(function (result) {
+          assert(result[0]);
+          assert.equal(result[0].length,
+            na.GET_BUYS_RESP.data.length,
+            "can not get transfers: " + JSON.stringify(result[0]));
+        });
     });
 
     it('should buy', function() {
@@ -187,6 +258,12 @@ describe('model.Account', function(){
         assert.equal(transfer.id, na.BUY_RESP.data.id,
           "can not buy: " + JSON.stringify(transfer));
       });
+      return btcAccount.buy(args)
+        .then(function (result) {
+          assert(result[0]);
+          assert.equal(result[0].id, na.BUY_RESP.data.id,
+            "can not buy: " + JSON.stringify(result[0]));
+        });
     });
   });
 });

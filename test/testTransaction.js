@@ -50,6 +50,7 @@ describe('model.Transaction', function(){
       txn.resend(function(err, res) {
         assert.equal(err, null, err);
       });
+      return txn.resend();
     });
 
     it('should complete transaction', function() {
@@ -61,12 +62,21 @@ describe('model.Transaction', function(){
           'wrong txn id');
         assert.equal(txn.status, 'pending', 'wrong txn status');
       });
+      return txn.complete()
+        .then(function (result) {
+          assert(result[0], 'no txn');
+          assert(result[0].id, 'no txn id');
+          assert.equal(result[0].id, na.COMPLETE_RESP.data.id,
+            'wrong txn id');
+          assert.equal(result[0].status, 'pending', 'wrong txn status');
+        });
     });
 
     it('should cancel transaction', function() {
       txn.cancel(function(err, res) {
         assert.equal(err, null, err);
       });
+      return txn.cancel();
     });
   });
 });

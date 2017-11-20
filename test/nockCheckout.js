@@ -36,6 +36,7 @@ var GET_CHECKOUT_RESP = {
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .get('/checkouts/' + GET_CHECKOUT_RESP.data.code)
+  .twice()
   .reply(200, function(uri, requestBody) {
     return GET_CHECKOUT_RESP;
   });
@@ -72,6 +73,7 @@ var buttonOrdersPath = '/checkouts/' + GET_CHECKOUT_RESP.data.id + '/orders';
 nock(TEST_BASE_URI)
   .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
   .get(buttonOrdersPath)
+  .twice()
   .reply(200, function(uri, body) {
     return GET_ORDERS_RESP;
   });
@@ -80,6 +82,7 @@ nock(TEST_BASE_URI)
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .get('/checkouts/' + GET_CHECKOUT_RESP.data.id)
+  .twice()
   .reply(200, function(uri, requestBody) {
     return GET_CHECKOUT_RESP;
   });
@@ -114,6 +117,7 @@ var buttonCreatePath = '/checkouts/' + GET_CHECKOUT_RESP.data.id + '/orders';
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .post(buttonCreatePath)
+  .twice()
   .reply(200, function(uri, body) {
     return CREATE_ORDER_RESP;
   });

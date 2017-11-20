@@ -93,6 +93,7 @@ var COMMIT_RESP = {
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .post('/accounts/544955d2629122efb000000f/buys/' + XFER_1.id + '/commit')
+  .twice()
   .reply(200, function(uri, requestBody) {
     return COMMIT_RESP;
   });

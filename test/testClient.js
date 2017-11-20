@@ -78,6 +78,17 @@ describe('Client', function() {
         assert.equal(accounts[1].id, na.ACCOUNTS_ID_2,
           "wrong account id: " + accounts[1].id);
       });
+      return client.getAccounts({})
+        .then(function (result) {
+          assert(result[0]);
+          var accounts = result[0];
+          assert(accounts, "no accounts");
+          assert.equal(accounts.length, 2, "wrong number of accounts");
+          assert.equal(accounts[0].id, na.ACCOUNTS_ID_1,
+            "wrong account id: " + accounts[0].id);
+          assert.equal(accounts[1].id, na.ACCOUNTS_ID_2,
+            "wrong account id: " + accounts[1].id);
+        });
     });
 
     it('should get account', function() {
@@ -86,6 +97,11 @@ describe('Client', function() {
         assert(account, 'no account');
         assert.equal(account.id, na.ACCOUNTS_ID_1, 'wrong account');
       });
+      return client.getAccount(na.ACCOUNTS_ID_1)
+        .then(function (result) {
+          assert(result[0], 'no account');
+          assert.equal(result[0].id, na.ACCOUNTS_ID_1, 'wrong account');
+        });
     });
 
     it('should create account', function() {
@@ -98,6 +114,12 @@ describe('Client', function() {
         assert(account.name, 'no name');
         assert.equal(account.name, na.NEW_ACCOUNT_NAME_1, 'wrong account name');
       });
+      return client.createAccount(args)
+        .then(function (result) {
+          assert(result[0], 'no account]');
+          assert(result[0].name, 'no name');
+          assert.equal(result[0].name, na.NEW_ACCOUNT_NAME_1, 'wrong account name');
+        });
     });
 
     it('should get current user', function() {
@@ -110,6 +132,14 @@ describe('Client', function() {
           'wrong user: ' + user.name);
 
       });
+      return client.getCurrentUser()
+        .then(function (result) {
+          assert(result[0], 'no user');
+          assert(result[0].name, "no email");
+          assert.equal(result[0].name,
+            na.GET_CURRENT_USER_RESP.data.name,
+            'wrong user: ' + result[0].name);
+        });
     });
 
     it('should get buy price (undefined)', function() {
@@ -121,6 +151,14 @@ describe('Client', function() {
           na.GET_BUY_PRICE_RESP.data.amount,
           'wrong amount: ' + obj.data.amount);
       });
+      return client.getBuyPrice({})
+        .then(function (result) {
+          assert(result[0], 'no price');
+          assert(result[0].data.amount, 'no amount');
+          assert.equal(result[0].data.amount,
+            na.GET_BUY_PRICE_RESP.data.amount,
+            'wrong amount: ' + result[0].data.amount);
+        });
     });
 
     it('should get buy price (USD)', function() {
@@ -132,6 +170,14 @@ describe('Client', function() {
           na.GET_BUY_PRICE_RESP.data.amount,
           'wrong amount: ' + obj.data.amount);
       });
+      return client.getBuyPrice({currency: 'USD'})
+        .then(function (result) {
+          assert(result[0], 'no price');
+          assert(result[0].data.amount, 'no amount');
+          assert.equal(result[0].data.amount,
+            na.GET_BUY_PRICE_RESP.data.amount,
+            'wrong amount: ' + result[0].data.amount);
+        });
     });
 
     it('should get buy price (BTC-USD)', function() {
@@ -143,6 +189,14 @@ describe('Client', function() {
           na.GET_BUY_PRICE_RESP.data.amount,
           'wrong amount: ' + obj.data.amount);
       });
+      return client.getBuyPrice({currencyPair: 'BTC-USD'})
+        .then(function (result) {
+          assert(result[0], 'no price');
+          assert(result[0].data.amount, 'no amount');
+          assert.equal(result[0].data.amount,
+            na.GET_BUY_PRICE_RESP.data.amount,
+            'wrong amount: ' + result[0].data.amount);
+        });
     });
 
     it('should get sell price (undefined)', function() {
@@ -154,6 +208,14 @@ describe('Client', function() {
           na.GET_BUY_PRICE_RESP.data.amount,
           'wrong amount: ' + obj.data.amount);
       });
+      return client.getSellPrice({})
+        .then(function (result) {
+          assert(result[0], 'no price');
+          assert(result[0].data.amount, 'no amount');
+          assert.equal(result[0].data.amount,
+            na.GET_BUY_PRICE_RESP.data.amount,
+            'wrong amount: ' + result[0].data.amount);
+        });
     });
 
     it('should get sell price (USD)', function() {
@@ -165,6 +227,14 @@ describe('Client', function() {
           na.GET_BUY_PRICE_RESP.data.amount,
           'wrong amount: ' + obj.data.amount);
       });
+      return client.getSellPrice({currency: 'USD'})
+        .then(function (result) {
+          assert(result[0], 'no price');
+          assert(result[0].data.amount, 'no amount');
+          assert.equal(result[0].data.amount,
+            na.GET_BUY_PRICE_RESP.data.amount,
+            'wrong amount: ' + result[0].data.amount);
+        });
     });
 
     it('should get sell price (BTC-USD)', function() {
@@ -176,6 +246,14 @@ describe('Client', function() {
           na.GET_BUY_PRICE_RESP.data.amount,
           'wrong amount: ' + obj.data.amount);
       });
+      return client.getSellPrice({currencyPair: 'BTC-USD'})
+        .then(function (result) {
+          assert(result[0], 'no price');
+          assert(result[0].data.amount, 'no amount');
+          assert.equal(result[0].data.amount,
+            na.GET_BUY_PRICE_RESP.data.amount,
+            'wrong amount: ' + result[0].data.amount);
+        });
     });
 
     it('should get spot price (undefined)', function() {
@@ -187,6 +265,14 @@ describe('Client', function() {
           na.GET_SPOT_RESP.data.amount,
           'wrong amount: ' + obj.data.amount);
       });
+      return client.getSpotPrice({})
+        .then(function (result) {
+          assert(result[0], 'no price');
+          assert(result[0].data.amount, 'no amount');
+          assert.equal(result[0].data.amount,
+            na.GET_SPOT_RESP.data.amount,
+            'wrong amount: ' + result[0].data.amount);
+        });
     });
 
     it('should get spot price (USD)', function() {
@@ -198,6 +284,14 @@ describe('Client', function() {
           na.GET_SPOT_RESP.data.amount,
           'wrong amount: ' + obj.data.amount);
       });
+      return client.getSpotPrice({currency: 'USD'})
+        .then(function (result) {
+          assert(result[0], 'no price');
+          assert(result[0].data.amount, 'no amount');
+          assert.equal(result[0].data.amount,
+            na.GET_SPOT_RESP.data.amount,
+            'wrong amount: ' + result[0].data.amount);
+        });
     });
 
     it('should get spot price (BTC-USD)', function() {
@@ -209,6 +303,14 @@ describe('Client', function() {
           na.GET_SPOT_RESP.data.amount,
           'wrong amount: ' + obj.data.amount);
       });
+      return client.getSpotPrice({currencyPair: 'BTC-USD'})
+        .then(function (result) {
+          assert(result[0], 'no price');
+          assert(result[0].data.amount, 'no amount');
+          assert.equal(result[0].data.amount,
+            na.GET_SPOT_RESP.data.amount,
+            'wrong amount: ' + result[0].data.amount);
+        });
     });
 
     it('should get supported currencies', function() {
@@ -219,6 +321,13 @@ describe('Client', function() {
           na.GET_CURRENCIES_RESP.length,
           'wrong number of currencies: ' + obj.length);
       });
+      return client.getCurrencies()
+        .then(function (result) {
+          assert(result[0], 'no currencies');
+          assert.equal(result[0].length,
+            na.GET_CURRENCIES_RESP.length,
+            'wrong number of currencies: ' + result[0].length);
+        });
     });
 
     it('should get exchange rates', function() {
@@ -230,6 +339,14 @@ describe('Client', function() {
           na.GET_EX_RATES_RESP.data.rates.AED,
           'wrong rate: ' + obj.data.rates.AED);
       });
+      return client.getExchangeRates({})
+        .then(function (result) {
+          assert(result[0], 'no rates');
+          assert(result[0].data.rates, "no rate");
+          assert.equal(result[0].data.rates.AED,
+            na.GET_EX_RATES_RESP.data.rates.AED,
+            'wrong rate: ' + result[0].data.rates.AED);
+        });
     });
 
     it('should get payment methods', function() {
@@ -240,6 +357,13 @@ describe('Client', function() {
           na.GET_PAYMENT_METHODS_RESP.data.length,
           'wrong number of methods: ' + pms.length);
       });
+      return client.getPaymentMethods({})
+        .then(function (result) {
+          assert(result[0], 'no payment methods');
+          assert.equal(result[0].length,
+            na.GET_PAYMENT_METHODS_RESP.data.length,
+            'wrong number of methods: ' + result[0].length);
+        });
     });
 
     it('should get payment method', function() {
@@ -250,6 +374,12 @@ describe('Client', function() {
         assert.equal(pm.id, na.GET_PAYMENT_METHOD_RESP.data.id,
           'wrong payment method');
       });
+      return client.getPaymentMethod(na.GET_PAYMENT_METHOD_RESP.data.id)
+        .then(function (result) {
+          assert(result[0], 'no payment method');
+          assert.equal(result[0].id, na.GET_PAYMENT_METHOD_RESP.data.id,
+            'wrong payment method');
+        });
     });
 
     it('should verify a legitimate merchant callback', function() {

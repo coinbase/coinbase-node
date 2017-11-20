@@ -38,6 +38,7 @@ var TXN_1 = {
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .post('/accounts/' + ACCOUNT_1.id + '/transactions/' + TXN_1.id + '/resend')
+  .twice()
   .reply(200, function(uri, requestBody) {
     return null;
   });
@@ -68,6 +69,7 @@ var COMPLETE_RESP = {
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .post('/accounts/' + ACCOUNT_1.id + '/transactions/' + TXN_1.id + '/complete')
+  .twice()
   .reply(200, function(uri, requestBody) {
     return COMPLETE_RESP;
   });
@@ -75,6 +77,7 @@ nock(TEST_BASE_URI)
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .delete('/accounts/' + ACCOUNT_1.id + '/transactions/' + TXN_1.id)
+  .twice()
   .reply(200, function(uri, requestBody) {
     return null;
   });

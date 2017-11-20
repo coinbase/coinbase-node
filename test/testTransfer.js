@@ -53,6 +53,10 @@ describe('model.Buy', function(){
         assert.equal(err, null, err);
         assert(update, 'no updated xfer');
       });
+      return xfer.commit()
+        .then(function (result) {
+          assert(result[0], 'no updated xfer');
+        });
     });
   });
 });

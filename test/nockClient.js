@@ -17,6 +17,7 @@ var GET_ACCOUNTS_RESP = {
 var scope1 = nock(TEST_BASE_URI)
                 .filteringPath(EXPIRE_REGEX, '')
                 .get('/accounts')
+                .twice()
                 .reply(200, GET_ACCOUNTS_RESP);
 
 var GET_ACCOUNT_RESP = {
@@ -41,6 +42,7 @@ var GET_ACCOUNT_RESP = {
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .get('/accounts/' + ACCOUNTS_ID_1)
+  .twice()
   .reply(200, function(uri, body) {
     return GET_ACCOUNT_RESP;
   });
@@ -68,6 +70,7 @@ var CREATE_ACCOUNT_RESP = {
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .post('/accounts')
+  .twice()
   .reply(201, function(uri, body) {
     return CREATE_ACCOUNT_RESP;
   });
@@ -107,6 +110,7 @@ var GET_CURRENT_USER_RESP = {
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .get('/user')
+  .twice()
   .reply(200, function(uri, body) {
     return GET_CURRENT_USER_RESP;
   });
@@ -120,7 +124,7 @@ var GET_BUY_PRICE_RESP = {
 nock(TEST_BASE_URI)
   .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
   .get('/prices/BTC-USD/buy')
-  .thrice()
+  .times(6)
   .reply(200, function(uri, body) {
     return GET_BUY_PRICE_RESP;
   });
@@ -134,7 +138,7 @@ var GET_SELL_PRICE_RESP = {
 nock(TEST_BASE_URI)
   .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
   .get('/prices/BTC-USD/sell')
-  .thrice()
+  .times(6)
   .reply(200, function(uri, body) {
     return GET_SELL_PRICE_RESP;
   });
@@ -147,11 +151,11 @@ var GET_SPOT_RESP = {
 };
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
- .get('/prices/BTC-USD/spot')
- .thrice()
- .reply(200, function(uri, body) {
-   return GET_SPOT_RESP;
- });
+  .get('/prices/BTC-USD/spot')
+  .times(6)
+  .reply(200, function(uri, body) {
+    return GET_SPOT_RESP;
+  });
 
 var GET_CURRENCIES_RESP = {
   "data": [
@@ -179,10 +183,11 @@ var GET_CURRENCIES_RESP = {
 };
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
- .get('/currencies')
- .reply(200, function(uri, body) {
-   return GET_CURRENCIES_RESP;
- });
+  .get('/currencies')
+  .twice()
+  .reply(200, function(uri, body) {
+    return GET_CURRENCIES_RESP;
+  });
 
 var GET_EX_RATES_RESP = {
   "data": {
@@ -205,10 +210,11 @@ var GET_EX_RATES_RESP = {
 
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
- .get('/exchange-rates')
- .reply(200, function(uri, body) {
-   return GET_EX_RATES_RESP;
- });
+  .get('/exchange-rates')
+  .twice()
+  .reply(200, function(uri, body) {
+    return GET_EX_RATES_RESP;
+  });
 
 var GET_PAYMENT_METHODS_RESP = {
   "data": [
@@ -230,10 +236,11 @@ var GET_PAYMENT_METHODS_RESP = {
 };
 nock(TEST_BASE_URI)
  .filteringPath(EXPIRE_REGEX, '')
- .get('/payment-methods')
- .reply(200, function(uri, body) {
-   return GET_PAYMENT_METHODS_RESP;
- });
+  .get('/payment-methods')
+  .twice()
+  .reply(200, function(uri, body) {
+    return GET_PAYMENT_METHODS_RESP;
+  });
 
 var GET_PAYMENT_METHOD_RESP = {
   "data": {
@@ -247,6 +254,7 @@ var GET_PAYMENT_METHOD_RESP = {
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .get('/payment-methods/' + GET_PAYMENT_METHOD_RESP.data.id)
+  .twice()
   .reply(200, function(uri, body) {
     return GET_PAYMENT_METHOD_RESP;
   });

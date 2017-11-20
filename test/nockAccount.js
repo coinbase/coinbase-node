@@ -37,11 +37,13 @@ var PRIMARY_RESPONSE = {
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .post('/accounts/' + ACCOUNT_1.id + '/primary')
+  .twice()
   .reply(200, PRIMARY_RESPONSE);
 
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .delete('/accounts/' + ACCOUNT_3.id)
+  .twice()
   .reply(204, null);
 
 var MODIFY_ACCOUNT_RESP = {
@@ -65,6 +67,7 @@ var MODIFY_ACCOUNT_RESP = {
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .put('/accounts/' + ACCOUNT_1.id)
+  .twice()
   .reply(200, function(uri, body) {
     return MODIFY_ACCOUNT_RESP;
   });
@@ -104,6 +107,7 @@ var GET_ADDRESSES_RESP =
 nock(TEST_BASE_URI)
   .filteringPath(/expire=[0-9]+/g)
   .get('/accounts/' + ACCOUNT_1.id + '/addresses')
+  .twice()
   .reply(200, function(uri, requestBody) {
     return GET_ADDRESSES_RESP;
   });
@@ -122,6 +126,7 @@ var GET_ADDRESS_RESP = {
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .get('/accounts/' + ACCOUNT_1.id + '/addresses/moLxGrqWNcnGq4A8Caq8EGP4n9GUGWanj4')
+  .twice()
   .reply(200, GET_ADDRESS_RESP);
 
 var CREATE_ADDRESS_RESP = {
@@ -139,6 +144,7 @@ nock(TEST_BASE_URI)
   .post('/accounts/' + ACCOUNT_1.id + '/addresses',
         {callback_url: 'http://www.example.com/callback',
          label: 'Dalmation donations'})
+  .twice()
   .reply(201, function(uri, body) {
     return CREATE_ADDRESS_RESP;
   });
@@ -191,6 +197,7 @@ var GET_TRANSACTIONS_RESP ={
 nock(TEST_BASE_URI)
   .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
   .get('/accounts/' + ACCOUNT_1.id + '/transactions')
+  .twice()
   .reply(200, function(uri, requestBody) {
     return GET_TRANSACTIONS_RESP;
   });
@@ -222,6 +229,7 @@ var GET_TRANSACTION_RESP = {
 nock(TEST_BASE_URI)
   .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
   .get('/accounts/' + ACCOUNT_1.id + '/transactions/1234')
+  .twice()
   .reply(200, function(uri, requestBody) {
     return GET_TRANSACTION_RESP;
   });
@@ -262,6 +270,7 @@ nock(TEST_BASE_URI)
          "amount": "1.234",
          "notes": "Sample transaction for you",
          "type": "transfer"})
+  .twice()
   .reply(201, function(uri, body) {
     return TRANSFER_MONEY_RESP;
   });
@@ -301,6 +310,7 @@ nock(TEST_BASE_URI)
          "amount": "1.234",
          "notes": "Sample transaction for you",
          "type": "send"})
+  .twice()
   .reply(201, function(uri, body) {
     return SEND_MONEY_RESP;
   });
@@ -337,6 +347,7 @@ nock(TEST_BASE_URI)
          "amount": "1.234",
          "notes": "Sample transaction for you",
          "type": "request"})
+  .twice()
   .reply(201, function(uri, body) {
     return REQUEST_MONEY_RESP;
   });
@@ -382,6 +393,7 @@ var GET_BUYS_RESP = {
 nock(TEST_BASE_URI)
   .filteringPath(/expire=[0-9]+/g, 'expire=XXX')
   .get('/accounts/' + ACCOUNT_1.id + '/buys')
+  .twice()
   .reply(200, function(uri, requestBody) {
     return GET_BUYS_RESP;
   });
@@ -422,6 +434,7 @@ var BUY_RESP = {
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .post('/accounts/' + ACCOUNT_1.id + '/buys')
+  .twice()
   .reply(201, function(uri, body) {
     return BUY_RESP;
   });

@@ -64,6 +64,7 @@ var MODIFY_RESP = {
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .put('/user', {'native_currency': 'CAD'})
+  .twice()
   .reply(200, function(uri, requestBody) {
     var args = JSON.parse(requestBody);
     return MODIFY_RESP;

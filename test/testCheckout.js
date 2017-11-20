@@ -60,6 +60,18 @@ describe('model.Checkout', function(){
           assert.equal(order[0].id, na.GET_ORDERS_RESP.data[0].id);
         });
       });
+
+      return client.getCheckout(na.GET_CHECKOUT_RESP.data.code)
+        .then(function (result) {
+          assert(result[0]);
+
+          return result[0].getOrders(null);
+        })
+        .then(function (result) {
+          assert(result[0]);
+          var order = result[0];
+          assert.equal(order[0].id, na.GET_ORDERS_RESP.data[0].id);
+        });
     });
 
     it('should create order', function() {
@@ -72,7 +84,15 @@ describe('model.Checkout', function(){
           assert.equal(order.id, na.CREATE_ORDER_RESP.data.id);
         });
       });
-
+      return client.getCheckout(na.GET_CHECKOUT_RESP.data.id)
+        .then(function (result) {
+          assert(result[0]);
+          return result[0].createOrder();
+        })
+        .then(function (result) {
+          assert(result[0]);
+          assert.equal(result[0].id, na.CREATE_ORDER_RESP.data.id);
+        });
     });
   });
 });

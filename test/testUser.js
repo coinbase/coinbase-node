@@ -49,6 +49,11 @@ describe('model.User', function(){
         assert(update, 'no updated user');
         assert.equal(update.native_currency, 'CAD', 'not updated');
       });
+      return user.update(args)
+        .then(function (result) {
+          assert(result[0], 'no updated user');
+          assert.equal(result[0].native_currency, 'CAD', 'not updated');
+        });
     });
 
   });

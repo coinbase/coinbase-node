@@ -51,6 +51,15 @@ describe('model.Order', function(){
         assert.equal(order.refund_transaction.id,
           na.REFUND_RESP.data.refund_transaction.id, 'no refund txn');
       });
+      return order.refund(args)
+        .then(function (result) {
+          assert(result[0], 'no refund');
+          assert(result[0].id);
+          assert.equal(result[0].id, na.REFUND_RESP.data.id, 'wrong order');
+          assert(result[0].refund_transaction.id);
+          assert.equal(result[0].refund_transaction.id,
+            na.REFUND_RESP.data.refund_transaction.id, 'no refund txn');
+        });
     });
   });
 });

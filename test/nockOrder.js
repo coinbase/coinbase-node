@@ -51,6 +51,7 @@ var refund_uri = '/orders/' + REFUND_RESP.data.id + '/refund';
 nock(TEST_BASE_URI)
   .filteringPath(EXPIRE_REGEX, '')
   .post(refund_uri)
+  .twice()
   .reply(200, function(uri, requestBody) {
     return REFUND_RESP;
   });
