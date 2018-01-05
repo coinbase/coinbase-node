@@ -33,6 +33,5 @@ node_modules
 .lock-wscript
 
 # Generated files
-/build/
 /lib-browser/
 /browser.js
