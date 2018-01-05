@@ -25,6 +25,7 @@
     "gulp-browserify": "^0.5.1",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.6.1",
+    "gulp-uglify": "^3.0.0",
     "mocha": "2.1.0",
     "nock": "0.59.1"
   },

@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var replace = require('gulp-replace');
 var rename = require('gulp-rename');
 var browserify = require('gulp-browserify');
+var uglify = require('gulp-uglify');
 
 gulp.task('browserify-index', function() {
 	return gulp.src('index.js')
@@ -23,5 +24,6 @@ gulp.task('browserify-dependencies', function() {
 gulp.task('browserify', ['browserify-index', 'browserify-dependencies'], function() {
 	return gulp.src('./browser.js')
 		.pipe(browserify({}))
+		.pipe(uglify())
 		.pipe(gulp.dest('build/'));
 });
