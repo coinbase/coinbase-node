@@ -31,3 +31,8 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
+
+# Generated files
+/build/
+/lib-browser/
+/browser.js
