@@ -3,7 +3,7 @@
 var gulp = require('gulp');
 var replace = require('gulp-replace');
 var rename = require('gulp-rename');
-var browserify = require('gulp-browserify');
+var browserify = require('gulp-bro');
 var uglify = require('gulp-uglify');
 
 gulp.task('browserify-index', function() {
