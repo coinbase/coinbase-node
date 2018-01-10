@@ -14,10 +14,17 @@ describe('Client', function() {
 
   describe('client constructor', function() {
     it('should return client', function() {
-      var client = new Client({'apiKey': 'mykey', 'apiSecret': 'mysecret', 'baseApiUri': na.TEST_BASE_URI});
+      var client = new Client({'apiKey': 'mykey', 'apiSecret': 'mysecret', 'baseApiUri': na.TEST_BASE_URI, 'timeout': 30000});
       assert(client);
       assert.equal(client.apiKey, 'mykey');
       assert.equal(client.apiSecret, 'mysecret');
+      assert.equal(client.timeout, 30000);
+    });
+    it('should has default option values', function() {
+        var client = new Client({'apiKey': 'mykey', 'apiSecret': 'mysecret'});
+        assert(client);
+        assert.equal(client.timeout, 5000);
+        assert.equal(client.baseApiUri, 'https://api.coinbase.com/v2/');
     });
     it('should require constructor new call', function(){
       var cl1 = Client({'apiKey': 'mykey', 'apiSecret': 'mysecret', 'baseApiUri': na.TEST_BASE_URI});
